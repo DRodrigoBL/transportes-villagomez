@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { OAuthGoogleService } from './auth/services/google.service';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +8,7 @@ import { OAuthGoogleService } from './auth/services/google.service';
 export class AppComponent {
   title = 'transportes-villagomez';
 
-  constructor(public auth: OAuthGoogleService) {
+  constructor() {
 
   }
 

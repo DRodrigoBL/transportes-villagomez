@@ -1,4 +1,4 @@
-<div *ngIf="auth.user$ | async as user; else login">
+<!-- <div *ngIf="auth.user$ | async as user; else login">
   {{ user | json }}
   <hr>
   <button class="button" (click)="auth.signOut()">Sign Out</button>
@@ -6,7 +6,8 @@
 
 <ng-template #login>
   <button class="button" (click)="auth.googleSignin()">Login with google</button>
-</ng-template>
+</ng-template> -->
 
+<app-signin></app-signin>
 
 <router-outlet></router-outlet>
