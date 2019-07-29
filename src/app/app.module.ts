@@ -6,6 +6,8 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 
+import { NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { environment } from '../environments/environment';
@@ -22,9 +24,10 @@ import { SigninComponent } from './auth/signin/signin.component';
     BrowserAnimationsModule,
     MaterialModule,
     FlexLayoutModule,
-    AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    NgxAuthFirebaseUIModule.forRoot(environment.firebase),
+    AngularFireModule.initializeApp(environment.firebase)
   ],
   providers: [],
   bootstrap: [AppComponent]
