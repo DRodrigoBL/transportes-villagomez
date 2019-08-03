@@ -7,16 +7,12 @@ import { auth } from 'firebase/app';
 import { AngularFireAuth } from '@angular/fire/auth';
 import {
   AngularFirestore,
-  AngularFirestoreDocument,
   AngularFirestoreCollection
 } from '@angular/fire/firestore';
 
-import { Observable, of } from 'rxjs';
-import { switchMap, take, map } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class OAuthGoogleService {
   user$: Observable<User>;
   permittedUsers$: Observable<User[]>;
@@ -25,6 +21,9 @@ export class OAuthGoogleService {
   loggedInUser: User;
 
   private permittedUsersCollection: AngularFirestoreCollection<User>;
+
+  authChange = new Subject<boolean>();
+  private isAuthenticated = false;
 
   constructor(
     private router: Router,
@@ -35,6 +34,20 @@ export class OAuthGoogleService {
     this.permittedUsersCollection
       .valueChanges()
       .subscribe(users => (this.permittedUsers = users));
+  }
+
+  initAuthListener() {
+    this.afAuth.authState.subscribe(user => {
+      if (user) {
+        this.isAuthenticated = true;
+        this.authChange.next(true);
+        this.router.navigate(['/cargas']);
+      } else {
+        this.authChange.next(false);
+        this.router.navigate(['/login']);
+        this.isAuthenticated = false;
+      }
+    });
   }
 
   async googleSignin() {
@@ -63,7 +76,14 @@ export class OAuthGoogleService {
   async signOut() {
     await this.afAuth.auth
       .signOut()
-      .then(() => console.log('logged out successfully'))
+      .then(() => {
+        console.log('logged out successfully');
+        this.isAuthenticated = false;
+      })
       .catch(() => console.log('failed to logout'));
+  }
+
+  isAuth() {
+    return this.isAuthenticated;
   }
 }

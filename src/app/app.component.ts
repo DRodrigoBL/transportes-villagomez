@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { OAuthGoogleService } from './auth/services/google.service';
+
 
 @Component({
   selector: 'app-root',
@@ -8,8 +10,8 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'transportes-villagomez';
 
-  constructor() {
-
+  constructor(private authService: OAuthGoogleService) {
+    this.authService.initAuthListener();
   }
 
 }

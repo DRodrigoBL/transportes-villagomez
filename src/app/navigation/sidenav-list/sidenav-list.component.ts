@@ -9,12 +9,12 @@ import { Subscription } from 'rxjs';
 import { OAuthGoogleService } from '../../auth/services/google.service';
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  selector: 'app-sidenav-list',
+  templateUrl: './sidenav-list.component.html',
+  styleUrls: ['./sidenav-list.component.css']
 })
-export class HeaderComponent implements OnInit, OnDestroy {
-  @Output() sidenavToggle = new EventEmitter<void>();
+export class SidenavListComponent implements OnInit, OnDestroy {
+  @Output() closeSidenav = new EventEmitter<void>();
   isAuth = false;
   authSubscription: Subscription;
 
@@ -28,11 +28,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
     );
   }
 
-  onToggleSidenav() {
-    this.sidenavToggle.emit();
+  onClose() {
+    this.closeSidenav.emit();
   }
 
   onLogout() {
+    this.onClose();
     this.authService.signOut();
   }
 
