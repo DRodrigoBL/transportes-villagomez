@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { OAuthGoogleService } from '../services/google.service';
+import { User } from '../model/user.model';
 
 @Component({
   selector: 'app-signin',
@@ -9,6 +9,7 @@ import { OAuthGoogleService } from '../services/google.service';
 })
 export class SigninComponent implements OnInit {
 
+  permittedUsers: User[];
 
   constructor(private authService: OAuthGoogleService) {
 
@@ -19,5 +20,9 @@ export class SigninComponent implements OnInit {
 
   login() {
     this.authService.googleSignin();
+  }
+
+  logout() {
+    this.authService.signOut();
   }
 }

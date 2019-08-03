@@ -1,3 +1,11 @@
-<section>
-    <button mat-button (click)="login()">Login</button>    
+<section fxLayout fxLayoutAlign="center">
+    <mat-card class="sign-in-card">
+        <mat-card-header>
+            <mat-card-title fxLayoutAlign="center">Transportes Villagomez</mat-card-title>
+        </mat-card-header>
+        <div fxLayoutAlign="center">
+            <button mat-button (click)="login()">Entrar</button>
+            <button mat-button (click)="logout()">Salir</button>
+        </div>
+    </mat-card>
 </section>
