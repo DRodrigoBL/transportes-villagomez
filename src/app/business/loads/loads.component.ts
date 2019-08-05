@@ -1,5 +1,6 @@
 import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
+import { FormControl } from '@angular/forms';
+import { MatDatepickerInputEvent } from '@angular/material';
 
 import { TrucksService } from '../services/trucks.service';
 import { LoadsService } from '../services/loads.service';
@@ -20,9 +21,11 @@ export class LoadsComponent implements OnInit, OnDestroy {
   trucks: Truck[];
   loads: Load[];
 
-  date = new FormControl(moment());
+  momentDate: Moment;
+  date: FormControl;
 
   displayLoads: boolean;
+  displayTrucks: boolean;
   private trucksSubscription: Subscription;
 
   constructor(
@@ -31,24 +34,81 @@ export class LoadsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.momentDate = moment();
+    this.date = new FormControl(this.momentDate);
+    this.configureTrucksSubscription();
+    this.configureLoadsSubscription();
+    this.fetchInformation();
+  }
+
+  fetchInformation() {
+    this.displayTrucks = false;
     this.displayLoads = false;
+    this.loadsService.findLoadsByDateStr(this.momentDate.format('DD/MM/YYYY'));
+    this.trucksService.findAllTrucks();
+  }
+
+  configureTrucksSubscription() {
     this.trucksService.trucksLoaded.subscribe((loadedTrucks: Truck[]) => {
       this.trucks = loadedTrucks;
-      this.displayLoads = true;
+      this.displayTrucks = true;
       console.log('loaded trucks: ' + JSON.stringify(this.trucks));
     });
+  }
+
+  configureLoadsSubscription() {
     this.loadsService.loadsByDateLoaded.subscribe((loadedLoads: Load[]) => {
       this.loads = loadedLoads;
+      this.displayLoads = true;
       console.log('loaded loads: ' + JSON.stringify(this.loads));
     });
-    this.loadsService.findLoadsByDateStr('04/08/2019');
-    this.trucksService.findAllTrucks();
-    console.log('date> ' + JSON.stringify(this.date));
+  }
+
+  truckHasLoad(truckName: string) {
+    for (const load of this.loads) {
+      if (load.camioneta === truckName) {
+       return true;
+      }
+    }
+    return false;
+  }
+
+  findDestinoByTruckName(truckName: string) {
+    for (const load of this.loads) {
+      if (load.camioneta === truckName) {
+        return load.destino;
+      }
+    }
+  }
+
+  findChoferByTruckName(truckName: string) {
+    for (const load of this.loads) {
+      if (load.camioneta === truckName) {
+        return load.chofer;
+      }
+    }
+  }
+
+  findProductoByTruckName(truckName: string) {
+    for (const load of this.loads) {
+      if (load.camioneta === truckName) {
+        return load.producto;
+      }
+    }
   }
 
   ngOnDestroy() {
     if (this.trucksSubscription) {
       this.trucksSubscription.unsubscribe();
     }
+  }
+
+  findLoads(dateEvent: MatDatepickerInputEvent<Moment>) {
+    this.momentDate = moment(dateEvent.value);
+    console.log(
+      'finding new info for date: ' + this.momentDate.format('DD/MM/YYYY')
+    );
+
+    this.fetchInformation();
   }
 }

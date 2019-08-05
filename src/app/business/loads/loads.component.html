@@ -4,23 +4,32 @@
 <hr>
 <div fxLayoutAlign="center center">
     <mat-form-field>
-        <input matInput [matDatepicker]="picker" placeholder="Fecha" [formControl]="date">
+        <input matInput [matDatepicker]="picker" placeholder="Fecha" [formControl]="date"
+            (dateChange)="findLoads($event)">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
 </div>
 <div fxLayoutAlign="center">
-    <mat-spinner *ngIf=!displayLoads></mat-spinner>
+    <mat-spinner *ngIf="!displayLoads && !displayTrucks"></mat-spinner>
 </div>
-<mat-accordion *ngIf=displayLoads class="example-headers-align">
+<mat-accordion *ngIf="displayLoads && displayTrucks" class="example-headers-align">
     <mat-expansion-panel *ngFor="let truck of trucks" [expanded]="false" hideToggle>
         <mat-expansion-panel-header>
             <mat-panel-title>
                 {{ truck.name }}
             </mat-panel-title>
         </mat-expansion-panel-header>
+        <div *ngIf="truckHasLoad(truck.name)">
+            Desitno: {{ findDestinoByTruckName(truck.name) }}
+            <br>
+            Chofer: {{ findChoferByTruckName(truck.name) }}
+            <br>
+            Producto: {{ findProductoByTruckName(truck.name) }}
+        </div>
         <mat-action-row>
-            <button mat-button color="primary">Agregar carga</button>
+            <button *ngIf="!truckHasLoad(truck.name)" mat-button color="primary">Agregar carga</button>
+            <button *ngIf="truckHasLoad(truck.name)" mat-button color="primary">Editar carga</button>
         </mat-action-row>
     </mat-expansion-panel>
 </mat-accordion>
