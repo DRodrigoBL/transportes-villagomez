@@ -1,1 +1,27 @@
-<p>loads works!</p>
+<div fxLayoutAlign="center center">
+    <h1>Cargas</h1>
+</div>
+<hr>
+<div fxLayoutAlign="center center">
+    <mat-form-field>
+        <input matInput [matDatepicker]="picker" placeholder="Fecha">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+</div>
+<div fxLayoutAlign="center">
+    <mat-spinner *ngIf=!displayLoads></mat-spinner>
+</div>
+<mat-accordion *ngIf=displayLoads class="example-headers-align">
+    <mat-expansion-panel *ngFor="let truck of trucks" [expanded]="false" hideToggle>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                {{ truck.name }}
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-action-row>
+            <button mat-button color="primary" >Agregar carga</button>
+        </mat-action-row>
+    </mat-expansion-panel>
+</mat-accordion>
