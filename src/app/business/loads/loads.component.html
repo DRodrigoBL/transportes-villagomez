@@ -4,11 +4,10 @@
 <hr>
 <div fxLayoutAlign="center center">
     <mat-form-field>
-        <input matInput [matDatepicker]="picker" placeholder="Fecha">
+        <input matInput [matDatepicker]="picker" placeholder="Fecha" [formControl]="date">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
-
 </div>
 <div fxLayoutAlign="center">
     <mat-spinner *ngIf=!displayLoads></mat-spinner>
@@ -21,7 +20,7 @@
             </mat-panel-title>
         </mat-expansion-panel-header>
         <mat-action-row>
-            <button mat-button color="primary" >Agregar carga</button>
+            <button mat-button color="primary">Agregar carga</button>
         </mat-action-row>
     </mat-expansion-panel>
 </mat-accordion>

@@ -19,8 +19,21 @@ import {
   MatSortModule,
   MatPaginatorModule,
   MatSnackBarModule,
-  MatExpansionModule
+  MatExpansionModule,
+  MAT_DATE_FORMATS
 } from '@angular/material';
+
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'DD/MM/YYYY'
+  },
+  display: {
+    dateInput: 'DD/MM/YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY'
+  }
+};
 
 @NgModule({
   imports: [
@@ -66,6 +79,7 @@ import {
     MatPaginatorModule,
     MatSnackBarModule,
     MatExpansionModule
-  ]
+  ],
+    providers: [{ provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }]
 })
 export class MaterialModule {}
