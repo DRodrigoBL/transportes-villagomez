@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import {
   MatButtonModule,
   MatIconModule,
   MatFormFieldModule,
   MatInputModule,
   MatDatepickerModule,
-  MatNativeDateModule,
   MatCheckboxModule,
   MatSidenavModule,
   MatToolbarModule,
@@ -29,7 +29,7 @@ import {
     MatFormFieldModule,
     MatInputModule,
     MatDatepickerModule,
-    MatNativeDateModule,
+    MatMomentDateModule,
     MatCheckboxModule,
     MatSidenavModule,
     MatToolbarModule,
@@ -51,7 +51,7 @@ import {
     MatFormFieldModule,
     MatInputModule,
     MatDatepickerModule,
-    MatNativeDateModule,
+    MatMomentDateModule,
     MatCheckboxModule,
     MatSidenavModule,
     MatToolbarModule,

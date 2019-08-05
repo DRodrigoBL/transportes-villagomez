@@ -15,6 +15,7 @@ import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.com
 import { AuthModule } from './auth/auth.module';
 
 import { OAuthGoogleService } from './auth/services/google.service';
+import { MAT_DATE_LOCALE } from '@angular/material';
 import { WelcomeComponent } from './welcome/welcome.component';
 
 @NgModule({
@@ -34,7 +35,10 @@ import { WelcomeComponent } from './welcome/welcome.component';
     AuthModule,
     AngularFirestoreModule
   ],
-  providers: [OAuthGoogleService],
+  providers: [
+    OAuthGoogleService,
+    { provide: MAT_DATE_LOCALE, useValue: 'es-us' }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
