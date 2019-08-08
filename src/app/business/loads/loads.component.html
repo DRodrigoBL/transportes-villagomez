@@ -28,8 +28,10 @@
             Producto: {{ findProductoByTruckName(truck.name) }}
         </div>
         <mat-action-row>
-            <button *ngIf="!truckHasLoad(truck.name)" mat-button color="primary">Agregar carga</button>
-            <button *ngIf="truckHasLoad(truck.name)" mat-button color="primary">Editar carga</button>
+            <button *ngIf="!truckHasLoad(truck.name)" 
+            mat-button color="primary" routerLink="/cargas/new">Agregar carga</button>
+            <button *ngIf="truckHasLoad(truck.name)" 
+            mat-button color="primary" routerLink="/cargas/edit">Editar carga</button>
         </mat-action-row>
     </mat-expansion-panel>
 </mat-accordion>
