@@ -66,6 +66,7 @@ export class OAuthGoogleService {
         console.log(
           'User logged in successfully ' + JSON.stringify(this.loggedInUser)
         );
+        this.isAuthenticated = true;
         return;
       }
     }
