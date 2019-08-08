@@ -5,10 +5,14 @@ import { LoadsComponent } from './loads/loads.component';
 import { TrucksService } from './services/trucks.service';
 import { LoadsService } from './services/loads.service';
 import { FormsModule } from '@angular/forms';
+import { NewLoadComponent } from './loads/new-load/new-load.component';
+import { EditLoadComponent } from './loads/edit-load/edit-load.component';
 
 @NgModule({
   declarations: [
-    LoadsComponent
+    LoadsComponent,
+    NewLoadComponent,
+    EditLoadComponent,
   ],
   imports: [
     SharedModule,
