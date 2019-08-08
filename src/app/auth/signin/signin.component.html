@@ -1,11 +1,14 @@
-<section fxLayout fxLayoutAlign="center">
+<section fxLayout fxLayoutAlign="center" class="body-padding">
     <mat-card class="sign-in-card">
         <mat-card-header>
             <mat-card-title fxLayoutAlign="center">Transportes Villagomez</mat-card-title>
         </mat-card-header>
+        <img mat-card-image src="../../../assets/img/truck-flat-icon-28x28.png" alt="Camioneta" height="256" width="32">
         <div fxLayoutAlign="center">
-            <button mat-button (click)="login()">Entrar</button>
-            <button mat-button (click)="logout()">Salir</button>
+            <button mat-raised-button (click)="login()">Entrar</button>
+        </div>
+        <div fxLayoutAlign="center">
+            <mat-spinner *ngIf="isLoading$ | async"></mat-spinner>
         </div>
     </mat-card>
 </section>

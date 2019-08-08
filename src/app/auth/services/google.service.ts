@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-
+import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
-import { User } from '../model/user.model';
 
 import { auth } from 'firebase/app';
 import { AngularFireAuth } from '@angular/fire/auth';
@@ -11,6 +10,12 @@ import {
 } from '@angular/fire/firestore';
 
 import { Observable, Subject } from 'rxjs';
+
+import { UIService } from '../../shared/ui.service';
+import { User } from '../model/user.model';
+
+import * as fromRoot from '../../app.reducer';
+import * as UI from '../../shared/ui.actions';
 
 @Injectable()
 export class OAuthGoogleService {
@@ -28,7 +33,9 @@ export class OAuthGoogleService {
   constructor(
     private router: Router,
     private afAuth: AngularFireAuth,
-    private afs: AngularFirestore
+    private afs: AngularFirestore,
+    private uiService: UIService,
+    private store: Store<fromRoot.State>
   ) {
     this.permittedUsersCollection = afs.collection<User>('users');
     this.permittedUsersCollection
@@ -51,13 +58,15 @@ export class OAuthGoogleService {
   }
 
   async googleSignin() {
+    this.store.dispatch(new UI.StartLoading());
     const provider = new auth.GoogleAuthProvider();
     const credential = await this.afAuth.auth.signInWithPopup(provider);
     console.log('credential to login: ' + JSON.stringify(credential.user));
 
     if (this.permittedUsers.length === 0) {
-      console.log('unable to login user, try again later');
-      throw new Error('Unable to login user, try again later.');
+      this.store.dispatch(new UI.StopLoading());
+      this.uiService.showSnackbar('No hay usuarios registrados', 'Ok', 10000);
+      throw new Error('Unable to login user, try again later. [this.permittedUsers.length === 0]');
     }
 
     for (const permittedUser of this.permittedUsers) {
@@ -67,11 +76,13 @@ export class OAuthGoogleService {
           'User logged in successfully ' + JSON.stringify(this.loggedInUser)
         );
         this.isAuthenticated = true;
+        this.store.dispatch(new UI.StopLoading());
         return;
       }
     }
+    this.uiService.showSnackbar('Permisos insuficientes', 'Ok', 10000);
     this.signOut();
-    throw new Error('User not allowed to login');
+    throw new Error('User not allowed to login [user not in firebase collection]');
   }
 
   async signOut() {
@@ -79,6 +90,7 @@ export class OAuthGoogleService {
       .signOut()
       .then(() => {
         console.log('logged out successfully');
+        this.store.dispatch(new UI.StopLoading());
         this.isAuthenticated = false;
       })
       .catch(() => console.log('failed to logout'));
