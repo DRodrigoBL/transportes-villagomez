@@ -10,3 +10,7 @@ body {
 body {
   margin: 0;
 }
+
+.body-padding {
+  padding-top: 30px;
+}
