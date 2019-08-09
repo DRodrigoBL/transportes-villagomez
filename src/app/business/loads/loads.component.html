@@ -21,11 +21,7 @@
             </mat-panel-title>
         </mat-expansion-panel-header>
         <div *ngIf="truckHasLoad(truck.name)">
-            Desitno: {{ findDestinoByTruckName(truck.name) }}
-            <br>
-            Chofer: {{ findChoferByTruckName(truck.name) }}
-            <br>
-            Producto: {{ findProductoByTruckName(truck.name) }}
+            <app-carga-details [cargasList]=loads [truckName]=truck.name ></app-carga-details>
         </div>
         <mat-action-row>
             <button *ngIf="!truckHasLoad(truck.name)" 

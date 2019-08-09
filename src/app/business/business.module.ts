@@ -7,12 +7,14 @@ import { LoadsService } from './services/loads.service';
 import { FormsModule } from '@angular/forms';
 import { NewLoadComponent } from './loads/new-load/new-load.component';
 import { EditLoadComponent } from './loads/edit-load/edit-load.component';
+import { CargaDetailsComponent } from './loads/carga-details/carga-details.component';
 
 @NgModule({
   declarations: [
     LoadsComponent,
     NewLoadComponent,
     EditLoadComponent,
+    CargaDetailsComponent,
   ],
   imports: [
     SharedModule,

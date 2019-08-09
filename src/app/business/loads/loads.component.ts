@@ -73,30 +73,6 @@ export class LoadsComponent implements OnInit, OnDestroy {
     return false;
   }
 
-  findDestinoByTruckName(truckName: string) {
-    for (const load of this.loads) {
-      if (load.camioneta === truckName) {
-        return load.destino;
-      }
-    }
-  }
-
-  findChoferByTruckName(truckName: string) {
-    for (const load of this.loads) {
-      if (load.camioneta === truckName) {
-        return load.chofer;
-      }
-    }
-  }
-
-  findProductoByTruckName(truckName: string) {
-    for (const load of this.loads) {
-      if (load.camioneta === truckName) {
-        return load.producto;
-      }
-    }
-  }
-
   ngOnDestroy() {
     if (this.trucksSubscription) {
       this.trucksSubscription.unsubscribe();
