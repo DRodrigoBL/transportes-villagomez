@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import {  } from '@angular/fire';
+import {} from '@angular/fire';
+import { Observable } from 'rxjs';
+
+
 import {
   FormBuilder,
   FormGroup,
@@ -16,7 +19,6 @@ import { LoadsService } from '../../services/loads.service';
   styleUrls: ['./new-load.component.css']
 })
 export class NewLoadComponent implements OnInit {
-
   fechaServicio: string;
   camioneta: string;
 
@@ -27,17 +29,35 @@ export class NewLoadComponent implements OnInit {
   ) {}
 
   cargasForm: FormGroup;
-  origenOptions: Origen[];
+  origenOptions: Origen[] = [];
+  origenOptionsObs: Observable<Array<Origen>>;
   currentOrigen: Origen;
   currentDestino: Destino;
   productosSeleccionados: Producto[] = [];
 
   ngOnInit() {
+    this.configureOrigenesOptionsSubs();
+    this.cargasService.fetchOrigenes();
+    this.configureRouterParamsSubs();
+    this.configureCargasForm();
+  }
+
+  configureOrigenesOptionsSubs() {
+    this.origenOptionsObs = this.cargasService.origenesLoaded;
+    this.cargasService.origenesLoaded.subscribe((loadedOrigenes: Origen[]) => {
+      console.log('in form comp, loaded origenes: ' + JSON.stringify( loadedOrigenes));
+      this.origenOptions = loadedOrigenes;
+    });
+  }
+
+  configureRouterParamsSubs() {
     this.route.queryParamMap.subscribe(queryParams => {
       this.fechaServicio = queryParams.get('fechaCarga');
       this.camioneta = queryParams.get('camioneta');
     });
-    this.origenOptions = this.cargasService.fetchOrigenes();
+  }
+
+  configureCargasForm() {
     this.cargasForm = this.formBuilder.group({
       origen: '0',
       destino: null,
@@ -64,7 +84,7 @@ export class NewLoadComponent implements OnInit {
 
   submitCarga() {
     console.log(JSON.stringify(this.cargasForm.value));
-    this.cargasService.saveCarga(this.cargasForm.value);
+    // this.cargasService.saveCarga(this.cargasForm.value);
   }
 
   get origenSelect(): AbstractControl {
@@ -141,5 +161,4 @@ export class NewLoadComponent implements OnInit {
     }
     return null;
   }
-
 }
