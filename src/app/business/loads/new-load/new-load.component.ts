@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from "@angular/router";
 import {
   FormBuilder,
   FormGroup,
@@ -7,7 +8,6 @@ import {
 } from '@angular/forms';
 import { Origen, Destino, Producto } from '../../model/origen.model';
 import { LoadsService } from '../../services/loads.service';
-import { stringify } from 'querystring';
 
 @Component({
   selector: 'app-new-load',
@@ -15,25 +15,37 @@ import { stringify } from 'querystring';
   styleUrls: ['./new-load.component.css']
 })
 export class NewLoadComponent implements OnInit {
-  fechaServicio = '19/04/2019';
-  cargasForm: FormGroup;
-  origenOptions: Origen[];
+
+  fechaServicio: string;
+  camioneta: string;
 
   constructor(
     private formBuilder: FormBuilder,
-    private cargasService: LoadsService
+    private cargasService: LoadsService,
+    private route: ActivatedRoute
   ) {}
 
+
+  cargasForm: FormGroup;
+  origenOptions: Origen[];
   currentOrigen: Origen;
   currentDestino: Destino;
   productosSeleccionados: Producto[] = [];
 
   ngOnInit() {
+    this.route.queryParamMap.subscribe(queryParams => {
+      this.fechaServicio = queryParams.get('fechaCarga');
+      this.camioneta = queryParams.get('camioneta');
+      console.log('received fecha: ' + this.fechaServicio);
+      console.log('camioneta received> ' + this.camioneta);
+    });
     this.origenOptions = this.cargasService.fetchOrigenes();
     this.cargasForm = this.formBuilder.group({
       origen: '0',
       destino: null,
       productos: null,
+      fechaCarga: this.fechaServicio,
+      camioneta: this.camioneta,
       productosDetail: this.formBuilder.array([])
     });
 
@@ -50,6 +62,10 @@ export class NewLoadComponent implements OnInit {
       this.deleteAllSelectedProducts();
       this.currentDestino = this.findDestinoById(newDestinoValue);
     });
+  }
+
+  submitCarga() {
+    console.log(JSON.stringify(this.cargasForm.value));
   }
 
   get origenSelect(): AbstractControl {
@@ -79,8 +95,6 @@ export class NewLoadComponent implements OnInit {
   deleteAllSelectedProducts() {
     this.productosDetailsForms.clear();
     this.productosSeleccionados.splice(0, this.productosSeleccionados.length);
-    console.log('after remove all forms: ' + this.productosDetailsForms.length);
-    console.log('after remove all prods: ' + this.productosSeleccionados.length);
   }
 
   deleteSelectedProductAt(i) {
@@ -129,12 +143,4 @@ export class NewLoadComponent implements OnInit {
     return null;
   }
 
-  findProductoById(productoId): Producto {
-    for (const product of this.currentDestino.productos) {
-      if (product.id == productoId) {
-        return product;
-      }
-    }
-    // return null;
-  }
 }

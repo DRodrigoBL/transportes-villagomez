@@ -44,7 +44,7 @@ export class LoadsComponent implements OnInit, OnDestroy {
   fetchInformation() {
     this.displayTrucks = false;
     this.displayLoads = false;
-    this.loadsService.findLoadsByDateStr(this.momentDate.format('DD/MM/YYYY'));
+    this.loadsService.findLoadsByDateStr(this.formatDate());
     this.trucksService.findAllTrucks();
   }
 
@@ -82,9 +82,13 @@ export class LoadsComponent implements OnInit, OnDestroy {
   findLoads(dateEvent: MatDatepickerInputEvent<Moment>) {
     this.momentDate = moment(dateEvent.value);
     console.log(
-      'finding new info for date: ' + this.momentDate.format('DD/MM/YYYY')
+      'finding new info for date: ' + this.formatDate()
     );
 
     this.fetchInformation();
+  }
+
+  formatDate(): string {
+    return this.momentDate.format('DD/MM/YYYY');
   }
 }
