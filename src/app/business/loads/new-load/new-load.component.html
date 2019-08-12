@@ -1,1 +1,84 @@
-<p>new-load works!</p>
+<div fxLayoutAlign="center center">
+    <h2>Agregar carga</h2>
+</div>
+<div fxLayoutAlign="center center">
+    <h3>Fecha de servicio: {{ fechaServicio }}
+    </h3>
+</div>
+<form [formGroup]="cargasForm" fxLayout="column" fxLayoutAlign="center center">
+
+    <mat-form-field class="form-element">
+        <mat-label>Origen</mat-label>
+        <mat-select formControlName="origen">
+            <mat-option value="0">
+                Seleccione Origen
+            </mat-option>
+            <mat-option *ngFor="let orig of origenOptions" [value]="orig.id">
+                {{ orig.nombreOrigen }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="form-element" *ngIf="currentOrigen">
+        <mat-label>Destino</mat-label>
+        <mat-select formControlName="destino">
+            <mat-option value="0">
+                Seleccione Destino
+            </mat-option>
+            <mat-option *ngFor="let destino of currentOrigen.destinos" [value]="destino.id">
+                {{ destino.nombreDestino }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="form-element" *ngIf="currentDestino">
+        <mat-label>Productos</mat-label>
+        <mat-select formControlName="productos" multiple>
+            <mat-option *ngFor="let prod of currentDestino.productos" [value]="prod.id"
+                (onSelectionChange)="productChange($event, prod)">
+                {{ prod.nombreProducto }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <div fxLayout="row" fxLayoutAlign="start center" class="form-element">
+        <div fxFlex="40%">
+            Producto
+        </div>
+        <div fxFlex="30%" style="padding-left: 10px;">
+            Cantidad
+        </div>
+        <div fxFlex="30%" style="padding-left: 10px;">
+            Remisión
+        </div>
+    </div>
+
+    <div formArrayName="productosDetail" fxLayout="column" class="form-element">
+        <div *ngFor="let productDetail of productosDetailsForms.controls; let i=index" [formGroupName]="i"
+            fxLayout="row" fxLayoutAlign="start center">
+            <div fxFlex="40%">
+                {{ productosSeleccionados[i].nombreProducto }}
+            </div>
+            <div fxFlex="25%">
+                <mat-form-field class="subform-element">
+                    <input type="text" matInput formControlName="cantidad">
+                </mat-form-field>
+            </div>
+            <div fxFlex="25%">
+                <mat-form-field class="subform-element">
+                    <input type="text" matInput formControlName="remision">
+                </mat-form-field>
+            </div>
+            <!-- <div fxFlex="10%">
+                <button mat-icon-button aria-label="Eliminar" (click)="deleteProduct(i)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </div> -->
+        </div>
+    </div>
+
+</form>
+
+<div fxLayoutAlign="center center" class="result">
+    <pre>{{ cargasForm.value | json }}</pre>
+</div>
