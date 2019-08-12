@@ -4,7 +4,7 @@ import { BusinessRoutingModule } from './business-routing.module';
 import { LoadsComponent } from './loads/loads.component';
 import { TrucksService } from './services/trucks.service';
 import { LoadsService } from './services/loads.service';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NewLoadComponent } from './loads/new-load/new-load.component';
 import { EditLoadComponent } from './loads/edit-load/edit-load.component';
 import { CargaDetailsComponent } from './loads/carga-details/carga-details.component';
@@ -19,7 +19,8 @@ import { CargaDetailsComponent } from './loads/carga-details/carga-details.compo
   imports: [
     SharedModule,
     BusinessRoutingModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
     TrucksService,
