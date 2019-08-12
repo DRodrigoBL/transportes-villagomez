@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute } from '@angular/router';
+import {  } from '@angular/fire';
 import {
   FormBuilder,
   FormGroup,
@@ -25,7 +26,6 @@ export class NewLoadComponent implements OnInit {
     private route: ActivatedRoute
   ) {}
 
-
   cargasForm: FormGroup;
   origenOptions: Origen[];
   currentOrigen: Origen;
@@ -36,8 +36,6 @@ export class NewLoadComponent implements OnInit {
     this.route.queryParamMap.subscribe(queryParams => {
       this.fechaServicio = queryParams.get('fechaCarga');
       this.camioneta = queryParams.get('camioneta');
-      console.log('received fecha: ' + this.fechaServicio);
-      console.log('camioneta received> ' + this.camioneta);
     });
     this.origenOptions = this.cargasService.fetchOrigenes();
     this.cargasForm = this.formBuilder.group({
@@ -66,6 +64,7 @@ export class NewLoadComponent implements OnInit {
 
   submitCarga() {
     console.log(JSON.stringify(this.cargasForm.value));
+    this.cargasService.saveCarga(this.cargasForm.value);
   }
 
   get origenSelect(): AbstractControl {

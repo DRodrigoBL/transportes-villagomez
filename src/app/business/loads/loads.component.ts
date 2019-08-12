@@ -6,11 +6,11 @@ import { TrucksService } from '../services/trucks.service';
 import { LoadsService } from '../services/loads.service';
 
 import { Truck } from '../model/truck.model';
-import { Load } from '../model/load.model';
 import { Subscription } from 'rxjs';
 
 import { Moment } from 'moment';
 import * as moment from 'moment';
+import { Carga } from '../model/carga.model';
 
 @Component({
   selector: 'app-loads',
@@ -19,21 +19,22 @@ import * as moment from 'moment';
 })
 export class LoadsComponent implements OnInit, OnDestroy {
   trucks: Truck[];
-  loads: Load[];
+  cargas: Carga;
 
   momentDate: Moment;
   date: FormControl;
 
-  displayLoads: boolean;
+  displayCargas: boolean;
   displayTrucks: boolean;
   private trucksSubscription: Subscription;
 
   constructor(
     private trucksService: TrucksService,
-    private loadsService: LoadsService
+    private cargasService: LoadsService
   ) {}
 
   ngOnInit() {
+    this.cargasService.saveInfo();
     this.momentDate = moment();
     this.date = new FormControl(this.momentDate);
     this.configureTrucksSubscription();
@@ -43,8 +44,8 @@ export class LoadsComponent implements OnInit, OnDestroy {
 
   fetchInformation() {
     this.displayTrucks = false;
-    this.displayLoads = false;
-    this.loadsService.findLoadsByDateStr(this.formatDate());
+    this.displayCargas = false;
+    this.cargasService.findCargasByDateStr(this.formatDate());
     this.trucksService.findAllTrucks();
   }
 
@@ -57,16 +58,16 @@ export class LoadsComponent implements OnInit, OnDestroy {
   }
 
   configureLoadsSubscription() {
-    this.loadsService.loadsByDateLoaded.subscribe((loadedLoads: Load[]) => {
-      this.loads = loadedLoads;
-      this.displayLoads = true;
-      console.log('loaded loads: ' + JSON.stringify(this.loads));
+    this.cargasService.cargasByDateLoaded.subscribe((loadedCargas: Carga) => {
+      this.cargas = loadedCargas;
+      this.displayCargas = true;
+      console.log('loaded cargas: ' + JSON.stringify(this.cargas));
     });
   }
 
   truckHasLoad(truckName: string) {
-    for (const load of this.loads) {
-      if (load.camioneta === truckName) {
+    for (const carga of this.cargas.cargasDetalles) {
+      if (carga.camioneta === truckName) {
        return true;
       }
     }

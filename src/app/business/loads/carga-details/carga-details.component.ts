@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Load } from '../../model/load.model';
+import { Carga, Producto } from '../../model/carga.model';
 
 @Component({
   selector: 'app-carga-details',
@@ -12,7 +12,7 @@ export class CargaDetailsComponent implements OnInit {
   truckName: string;
 
   @Input()
-  cargasList: Load[];
+  cargas: Carga;
 
   destino: string;
   chofer: string;
@@ -23,19 +23,27 @@ export class CargaDetailsComponent implements OnInit {
   ngOnInit() {
 
     console.log('truckName> ' + JSON.stringify(this.truckName));
-    console.log('cargasList> ' + JSON.stringify(this.cargasList));
+    console.log('cargasList> ' + JSON.stringify(this.cargas));
     this.findCargaDetailsByTruckName();
   }
 
   findCargaDetailsByTruckName() {
-    for (const load of this.cargasList) {
+    for (const load of this.cargas.cargasDetalles) {
       console.log('load.camioneta: ' + load.camioneta + '===' + 'truckName');
       if (load.camioneta === this.truckName) {
-        this.destino = load.destino;
+        this.destino = load.destino.nombreDestino;
         this.chofer = load.chofer;
-        this.producto = load.producto;
+        this.producto = this.listProductos(load.productos);
       }
     }
+  }
+
+  listProductos(productos: Producto[]): string {
+    let productosStr = '';
+    for (const prod of productos) {
+      productosStr = prod.nombreProducto + ', ';
+    }
+    return productosStr.substr(0, productosStr.length - 2);
   }
 
 }

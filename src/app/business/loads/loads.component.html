@@ -13,7 +13,7 @@
 <div fxLayoutAlign="center">
     <mat-spinner *ngIf="!displayLoads && !displayTrucks"></mat-spinner>
 </div>
-<mat-accordion *ngIf="displayLoads && displayTrucks" class="example-headers-align">
+<mat-accordion *ngIf="displayCargas && displayTrucks" class="example-headers-align">
     <mat-expansion-panel *ngFor="let truck of trucks" [expanded]="false" hideToggle>
         <mat-expansion-panel-header>
             <mat-panel-title>
@@ -21,7 +21,7 @@
             </mat-panel-title>
         </mat-expansion-panel-header>
         <div *ngIf="truckHasLoad(truck.name)">
-            <app-carga-details [cargasList]=loads [truckName]=truck.name></app-carga-details>
+            <app-carga-details [cargas]=cargas [truckName]=truck.name></app-carga-details>
         </div>
         <mat-action-row>
             <a *ngIf="!truckHasLoad(truck.name)" mat-button color="primary" [routerLink]="['/cargas/new']"
