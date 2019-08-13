@@ -13,7 +13,7 @@
             <mat-option value="0">
                 Seleccione Origen
             </mat-option>
-            <mat-option *ngFor="let orig of origenOptions" [value]="orig.id" 
+            <mat-option *ngFor="let orig of origenOptions" [value]="orig.id"
                 (onSelectionChange)="updateOrigenToSave($event, orig)">
                 {{ orig.nombreOrigen }}
             </mat-option>
@@ -27,11 +27,29 @@
                 Seleccione Destino
             </mat-option>
             <mat-option *ngFor="let destino of currentOrigen.destinos" [value]="destino.id"
-            (onSelectionChange)="updateDestinoToSave($event, destino)">
+                (onSelectionChange)="updateDestinoToSave($event, destino)">
                 {{ destino.nombreDestino }}
             </mat-option>
         </mat-select>
     </mat-form-field>
+
+
+    <mat-slide-toggle formControlName="hasAyudante">¿Ayudante?</mat-slide-toggle>
+
+    <div *ngIf="hasAyudante.value">
+        <mat-form-field class="form-element">
+            <mat-label>Ayudante</mat-label>
+            <mat-select formControlName="ayudante">
+                <mat-option value="0">
+                    Seleccione Ayudante
+                </mat-option>
+                <mat-option *ngFor="let ayudante of ayudantes" [value]="ayudante"
+                    (onSelectionChange)="updateAyudanteToSave($event, ayudante)">
+                    {{ ayudante }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
 
     <mat-form-field class="form-element" *ngIf="currentDestino">
         <mat-label>Productos</mat-label>

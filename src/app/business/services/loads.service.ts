@@ -4,10 +4,11 @@ import {
   AngularFirestoreCollection
 } from '@angular/fire/firestore';
 
-import { Subscription, Subject } from 'rxjs';
+import { Subscription, Subject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Origen } from '../model/origen.model';
 import { Carga } from '../model/carga.model';
+import * as firebase from 'firebase/app';
 
 @Injectable()
 export class LoadsService {
@@ -22,19 +23,21 @@ export class LoadsService {
   constructor(private db: AngularFirestore) {}
 
   public findCargasByDateStr(dateStr: string) {
+    // this.db
+    //   .collection('cargas', ref => ref.where('fechaCarga', '==', dateStr))
     this.db
-      .collection('cargas', ref => ref.where('fechaCarga', '==', dateStr))
+      .doc<Carga>('cargas/' + dateStr)
       .valueChanges()
       .subscribe(
-        (foundCargas: Carga[]) => {
-          console.log('found cargas: ' + JSON.stringify(foundCargas));
-          if (foundCargas.length === 0) {
+        (foundCarga: Carga) => {
+          console.log('found cargas: ' + JSON.stringify(foundCarga));
+          if (foundCarga.cargasDetalles.length === 0) {
             this.cargasByDate = {
               fechaCarga: dateStr,
               cargasDetalles: []
             };
           } else {
-            this.cargasByDate = foundCargas[0];
+            this.cargasByDate = foundCarga;
           }
           this.cargasByDateLoaded.next({
             ...this.cargasByDate
@@ -58,11 +61,14 @@ export class LoadsService {
   }
 
   public saveCarga(carga: Carga) {
-    try {
-      this.db.collection('cargas').add(carga);
-    } catch (error) {
-      console.log(error);
-    }
+    console.log('before saving carga current: ' + JSON.stringify(this.cargasByDate));
+
+    this.cargasByDate.cargasDetalles.push(carga.cargasDetalles[0]);
+    this.db
+      .doc<Carga>('cargas/' + carga.fechaCarga)
+      .update(this.cargasByDate)
+      .then(() => console.log('cargas updated successfully'))
+      .catch(error => console.log(error));
   }
 
   public fetchOrigenes() {

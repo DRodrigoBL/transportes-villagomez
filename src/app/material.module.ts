@@ -20,6 +20,7 @@ import {
   MatPaginatorModule,
   MatSnackBarModule,
   MatExpansionModule,
+  MatSlideToggleModule,
   MAT_DATE_FORMATS
 } from '@angular/material';
 
@@ -56,7 +57,8 @@ export const MY_FORMATS = {
     MatSortModule,
     MatPaginatorModule,
     MatSnackBarModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatSlideToggleModule
   ],
   exports: [
     MatButtonModule,
@@ -78,7 +80,8 @@ export const MY_FORMATS = {
     MatSortModule,
     MatPaginatorModule,
     MatSnackBarModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatSlideToggleModule
   ],
     providers: [{ provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }]
 })

@@ -1,5 +1,6 @@
 
 export interface Carga {
+    id?: string;
     fechaCarga: string;
     cargasDetalles: CargasDetalles[];
 }

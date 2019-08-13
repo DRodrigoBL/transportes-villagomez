@@ -19,6 +19,7 @@ import { Carga, CargasDetalles, CargaProducto } from '../../model/carga.model';
   styleUrls: ['./new-load.component.css']
 })
 export class NewLoadComponent implements OnInit {
+  // router params
   fechaServicio: string;
   camioneta: string;
   chofer: string;
@@ -30,16 +31,22 @@ export class NewLoadComponent implements OnInit {
     private router: Router
   ) {}
 
+  // form objects
   cargasForm: FormGroup;
+
+  // dynamic form values
   origenOptions: Origen[] = [];
-  origenOptionsObs: Observable<Array<Origen>>;
   currentOrigen: Origen;
   currentDestino: Destino;
   productosSeleccionados: Producto[] = [];
+  ayudantes = ['RODRIGO', 'GERARDO'];
+
+  // form values to be saved
   cargaToSave: Carga;
   cargasDetallesToSave: CargasDetalles;
   nombreDestinoToSave: string;
   nombreOrigenToSave: string;
+  nombreAyudanteToSave: string;
 
   ngOnInit() {
     this.configureOrigenesOptionsSubs();
@@ -49,7 +56,6 @@ export class NewLoadComponent implements OnInit {
   }
 
   configureOrigenesOptionsSubs() {
-    this.origenOptionsObs = this.cargasService.origenesLoaded;
     this.cargasService.origenesLoaded.subscribe((loadedOrigenes: Origen[]) => {
       this.origenOptions = loadedOrigenes;
     });
@@ -70,6 +76,8 @@ export class NewLoadComponent implements OnInit {
       productos: null,
       fechaCarga: this.fechaServicio,
       camioneta: this.camioneta,
+      hasAyudante: false,
+      ayudante: null,
       productosDetail: this.formBuilder.array([])
     });
 
@@ -89,8 +97,6 @@ export class NewLoadComponent implements OnInit {
   }
 
   submitCarga() {
-    console.log(JSON.stringify(this.cargasForm.value));
-
     this.cargaToSave = {
       fechaCarga: this.fechaServicio,
       cargasDetalles: [
@@ -101,7 +107,7 @@ export class NewLoadComponent implements OnInit {
           destinoId: this.destinoSelect.value,
           nombreDestino: this.nombreDestinoToSave,
           chofer: this.chofer,
-          ayudante: null,
+          ayudante: this.nombreAyudanteToSave,
           productos: this.getProductosSeleccionadosInForm()
         }
       ]
@@ -121,6 +127,10 @@ export class NewLoadComponent implements OnInit {
 
   get productosSelect(): AbstractControl {
     return this.cargasForm.get('productos');
+  }
+
+  get hasAyudante(): AbstractControl {
+    return this.cargasForm.get('hasAyudante');
   }
 
   get productosDetailsForms() {
@@ -146,9 +156,6 @@ export class NewLoadComponent implements OnInit {
   }
 
   productChange(event, producto: Producto) {
-    console.log('prducto changed: ' + JSON.stringify(producto));
-    console.log(event.source.value, event.source.selected);
-
     if (event.isUserInput && event.source.selected) {
       this.productosSeleccionados.push(producto);
       this.addProductosDetailsForm();
@@ -159,7 +166,7 @@ export class NewLoadComponent implements OnInit {
   }
 
   getProductosSeleccionadosInForm(): CargaProducto[] {
-    let cargaProductosToSave: CargaProducto[] = [];
+    const cargaProductosToSave: CargaProducto[] = [];
     let idx = 0;
     for (const selectedProduct of this.productosSeleccionados) {
       let cargaProductoToPush: CargaProducto;
@@ -186,6 +193,12 @@ export class NewLoadComponent implements OnInit {
   updateDestinoToSave(event, destino: Destino) {
     if (event.isUserInput) {
       this.nombreDestinoToSave = destino.nombreDestino;
+    }
+  }
+
+  updateAyudanteToSave(event, ayudante: string) {
+    if (event.isUserInput) {
+      this.nombreAyudanteToSave = ayudante;
     }
   }
 

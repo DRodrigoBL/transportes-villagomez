@@ -97,6 +97,6 @@ export class LoadsComponent implements OnInit, OnDestroy {
   }
 
   formatDate(): string {
-    return this.momentDate.format('DD/MM/YYYY');
+    return this.momentDate.format('DD-MM-YYYY');
   }
 }
