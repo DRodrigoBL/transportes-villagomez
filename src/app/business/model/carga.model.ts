@@ -1,29 +1,21 @@
 
 export interface Carga {
     fechaCarga: string;
-    cargasDetalles: Cargas[];
+    cargasDetalles: CargasDetalles[];
 }
 
-export interface Cargas {
+export interface CargasDetalles {
     camioneta: string;
     chofer: string;
     ayudante?: string;
-    origen: Origen;
-    destino: Destino;
-    productos: Producto[];
-}
-
-export interface Destino {
     destinoId: string;
     nombreDestino: string;
-}
-
-export interface Origen {
     origenId: string;
     nombreOrigen: string;
+    productos: CargaProducto[];
 }
 
-export interface Producto {
+export interface CargaProducto {
     productoId: string;
     nombreProducto: string;
     cantidad: number;

@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {} from '@angular/fire';
 import { Observable } from 'rxjs';
-
 
 import {
   FormBuilder,
@@ -12,6 +11,7 @@ import {
 } from '@angular/forms';
 import { Origen, Destino, Producto } from '../../model/origen.model';
 import { LoadsService } from '../../services/loads.service';
+import { Carga, CargasDetalles, CargaProducto } from '../../model/carga.model';
 
 @Component({
   selector: 'app-new-load',
@@ -21,11 +21,13 @@ import { LoadsService } from '../../services/loads.service';
 export class NewLoadComponent implements OnInit {
   fechaServicio: string;
   camioneta: string;
+  chofer: string;
 
   constructor(
     private formBuilder: FormBuilder,
     private cargasService: LoadsService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   cargasForm: FormGroup;
@@ -34,6 +36,10 @@ export class NewLoadComponent implements OnInit {
   currentOrigen: Origen;
   currentDestino: Destino;
   productosSeleccionados: Producto[] = [];
+  cargaToSave: Carga;
+  cargasDetallesToSave: CargasDetalles;
+  nombreDestinoToSave: string;
+  nombreOrigenToSave: string;
 
   ngOnInit() {
     this.configureOrigenesOptionsSubs();
@@ -45,7 +51,6 @@ export class NewLoadComponent implements OnInit {
   configureOrigenesOptionsSubs() {
     this.origenOptionsObs = this.cargasService.origenesLoaded;
     this.cargasService.origenesLoaded.subscribe((loadedOrigenes: Origen[]) => {
-      console.log('in form comp, loaded origenes: ' + JSON.stringify( loadedOrigenes));
       this.origenOptions = loadedOrigenes;
     });
   }
@@ -54,6 +59,7 @@ export class NewLoadComponent implements OnInit {
     this.route.queryParamMap.subscribe(queryParams => {
       this.fechaServicio = queryParams.get('fechaCarga');
       this.camioneta = queryParams.get('camioneta');
+      this.chofer = queryParams.get('chofer');
     });
   }
 
@@ -84,7 +90,25 @@ export class NewLoadComponent implements OnInit {
 
   submitCarga() {
     console.log(JSON.stringify(this.cargasForm.value));
-    // this.cargasService.saveCarga(this.cargasForm.value);
+
+    this.cargaToSave = {
+      fechaCarga: this.fechaServicio,
+      cargasDetalles: [
+        {
+          camioneta: this.camioneta,
+          origenId: this.origenSelect.value,
+          nombreOrigen: this.nombreOrigenToSave,
+          destinoId: this.destinoSelect.value,
+          nombreDestino: this.nombreDestinoToSave,
+          chofer: this.chofer,
+          ayudante: null,
+          productos: this.getProductosSeleccionadosInForm()
+        }
+      ]
+    };
+    console.log('carga to save: ' + JSON.stringify(this.cargaToSave));
+    this.cargasService.saveCarga(this.cargaToSave);
+    this.router.navigate(['/cargas']);
   }
 
   get origenSelect(): AbstractControl {
@@ -131,6 +155,37 @@ export class NewLoadComponent implements OnInit {
     } else if (event.isUserInput && !event.source.selected) {
       const productoToRemoveIndex = this.findIndexOfProduct(producto);
       this.deleteSelectedProductAt(productoToRemoveIndex);
+    }
+  }
+
+  getProductosSeleccionadosInForm(): CargaProducto[] {
+    let cargaProductosToSave: CargaProducto[] = [];
+    let idx = 0;
+    for (const selectedProduct of this.productosSeleccionados) {
+      let cargaProductoToPush: CargaProducto;
+      cargaProductoToPush = {
+        productoId: this.productosSeleccionados[idx].id,
+        nombreProducto: this.productosSeleccionados[idx].nombreProducto,
+        unidadMedida: this.productosSeleccionados[idx].unidadMedida,
+        unidadesPorMedida: this.productosSeleccionados[idx].unidadesPorMedida,
+        cantidad: this.productosDetailsForms.at(idx).get('cantidad').value,
+        remision: this.productosDetailsForms.at(idx).get('remision').value
+      };
+      cargaProductosToSave.push(cargaProductoToPush);
+      idx++;
+    }
+    return cargaProductosToSave;
+  }
+
+  updateOrigenToSave(event, orig: Origen) {
+    if (event.isUserInput) {
+      this.nombreOrigenToSave = orig.nombreOrigen;
+    }
+  }
+
+  updateDestinoToSave(event, destino: Destino) {
+    if (event.isUserInput) {
+      this.nombreDestinoToSave = destino.nombreDestino;
     }
   }
 

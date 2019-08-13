@@ -28,8 +28,14 @@ export class LoadsService {
       .subscribe(
         (foundCargas: Carga[]) => {
           console.log('found cargas: ' + JSON.stringify(foundCargas));
-          this.cargasByDate = foundCargas[0];
-
+          if (foundCargas.length === 0) {
+            this.cargasByDate = {
+              fechaCarga: dateStr,
+              cargasDetalles: []
+            };
+          } else {
+            this.cargasByDate = foundCargas[0];
+          }
           this.cargasByDateLoaded.next({
             ...this.cargasByDate
           });
@@ -69,9 +75,7 @@ export class LoadsService {
             'found origenes: ' + JSON.stringify(foundOrigenDestinoProducto)
           );
           this.origenes = foundOrigenDestinoProducto;
-          this.origenesLoaded.next(
-            this.origenes.slice()
-          );
+          this.origenesLoaded.next(this.origenes.slice());
         },
         error => {
           console.log('Error occured while loading Origenes: ' + error.message);

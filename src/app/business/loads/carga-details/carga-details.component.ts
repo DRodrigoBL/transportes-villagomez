@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Carga, Producto } from '../../model/carga.model';
+import { Carga, CargaProducto } from '../../model/carga.model';
 
 @Component({
   selector: 'app-carga-details',
@@ -31,14 +31,14 @@ export class CargaDetailsComponent implements OnInit {
     for (const load of this.cargas.cargasDetalles) {
       console.log('load.camioneta: ' + load.camioneta + '===' + 'truckName');
       if (load.camioneta === this.truckName) {
-        this.destino = load.destino.nombreDestino;
+        this.destino = load.nombreDestino;
         this.chofer = load.chofer;
         this.producto = this.listProductos(load.productos);
       }
     }
   }
 
-  listProductos(productos: Producto[]): string {
+  listProductos(productos: CargaProducto[]): string {
     let productosStr = '';
     for (const prod of productos) {
       productosStr = prod.nombreProducto + ', ';

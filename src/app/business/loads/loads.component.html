@@ -25,10 +25,14 @@
         </div>
         <mat-action-row>
             <a *ngIf="!truckHasLoad(truck.name)" mat-button color="primary" [routerLink]="['/cargas/new']"
-                [queryParams]="{fechaCarga: formatDate(), camioneta: truck.name}">Agregar carga</a>
+                [queryParams]="{fechaCarga: formatDate(), camioneta: truck.name, chofer: truck.driverName}">
+                Agregar carga
+            </a>
 
             <a *ngIf="truckHasLoad(truck.name)" mat-button color="primary" [routerLink]="['/cargas/edit']"
-                [queryParams]="{fechaCarga: formatDate(), camioneta: truck.name}">Editar carga</a>
+                [queryParams]="{fechaCarga: formatDate(), camioneta: truck.name, chofer: truck.driverName}">
+                Editar carga
+            </a>
         </mat-action-row>
     </mat-expansion-panel>
 </mat-accordion>

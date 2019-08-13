@@ -60,6 +60,13 @@ export class LoadsComponent implements OnInit, OnDestroy {
   configureLoadsSubscription() {
     this.cargasService.cargasByDateLoaded.subscribe((loadedCargas: Carga) => {
       this.cargas = loadedCargas;
+      if (!this.cargas) {
+        console.log('no hay cargas');
+        // this.cargas = {
+        //   fechaCarga: this.formatDate(),
+        //   cargasDetalles: []
+        // };
+      }
       this.displayCargas = true;
       console.log('loaded cargas: ' + JSON.stringify(this.cargas));
     });

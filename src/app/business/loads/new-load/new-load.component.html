@@ -13,7 +13,8 @@
             <mat-option value="0">
                 Seleccione Origen
             </mat-option>
-            <mat-option *ngFor="let orig of origenOptions" [value]="orig.id">
+            <mat-option *ngFor="let orig of origenOptions" [value]="orig.id" 
+                (onSelectionChange)="updateOrigenToSave($event, orig)">
                 {{ orig.nombreOrigen }}
             </mat-option>
         </mat-select>
@@ -25,7 +26,8 @@
             <mat-option value="0">
                 Seleccione Destino
             </mat-option>
-            <mat-option *ngFor="let destino of currentOrigen.destinos" [value]="destino.id">
+            <mat-option *ngFor="let destino of currentOrigen.destinos" [value]="destino.id"
+            (onSelectionChange)="updateDestinoToSave($event, destino)">
                 {{ destino.nombreDestino }}
             </mat-option>
         </mat-select>
