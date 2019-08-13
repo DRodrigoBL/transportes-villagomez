@@ -62,10 +62,6 @@ export class LoadsComponent implements OnInit, OnDestroy {
       this.cargas = loadedCargas;
       if (!this.cargas) {
         console.log('no hay cargas');
-        // this.cargas = {
-        //   fechaCarga: this.formatDate(),
-        //   cargasDetalles: []
-        // };
       }
       this.displayCargas = true;
       console.log('loaded cargas: ' + JSON.stringify(this.cargas));

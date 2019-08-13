@@ -20,7 +20,7 @@ export class TrucksService {
   public findAllTrucks() {
     this.serviceSubs.push(
       this.db
-        .collection('trucks')
+        .collection('trucks', trucksRef => trucksRef.orderBy('name'))
         .snapshotChanges()
         .pipe(
           map(docArray =>
