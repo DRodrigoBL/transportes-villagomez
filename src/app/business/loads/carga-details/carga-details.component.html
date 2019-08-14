@@ -3,3 +3,6 @@ Desitno: {{ destino }}
 Chofer: {{ chofer }}
 <br>
 Producto: {{ producto }}
+<br>
+<div *ngIf="ayudante">Ayudante: {{ ayudante }}</div>
+<div *ngIf="!ayudante">Sin ayudante</div>

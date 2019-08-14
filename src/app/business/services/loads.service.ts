@@ -31,7 +31,7 @@ export class LoadsService {
       .subscribe(
         (foundCarga: Carga) => {
           console.log('found cargas: ' + JSON.stringify(foundCarga));
-          if (foundCarga.cargasDetalles.length === 0) {
+          if (!foundCarga || foundCarga.cargasDetalles.length === 0) {
             this.cargasByDate = {
               fechaCarga: dateStr,
               cargasDetalles: []
@@ -51,24 +51,42 @@ export class LoadsService {
   }
 
   public saveInfo() {
-    //   const info = '{"fechaCarga":"11/08/2019","cargasDetalles":[{"camioneta":"C04","chofer":"JUAN MANUEL OZUNA GUAPO","ayudante":"DAMIAN ANDRADE GRANILLO","origen":{"origenId":"1","nombreOrigen":"ROSHFRANS"},"destino":{"destinoId":"1","nombreDestino":"ACTOPAN"},"productos":[{"productoId":"10","nombreProducto":"IMPRESION AMARILLA","cantidad":10,"remision":"ABC","unidadMedida":"BOLSA","unidadesPorMedida":10}]}]}';
-    //   const carga = JSON.parse(info);
-    //   try {
-    //     this.db.collection('cargas').add(carga);
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
+    // const info =
+    //   '{"fechaCarga":"11/08/2019","cargasDetalles":[{"camioneta":"C04","chofer":"JUAN MANUEL OZUNA GUAPO","ayudante":"DAMIAN ANDRADE GRANILLO","origen":{"origenId":"1","nombreOrigen":"ROSHFRANS"},"destino":{"destinoId":"1","nombreDestino":"ACTOPAN"},"productos":[{"productoId":"10","nombreProducto":"IMPRESION AMARILLA","cantidad":10,"remision":"ABC","unidadMedida":"BOLSA","unidadesPorMedida":10}]}]}';
+    // const carga = JSON.parse(info);
+    // try {
+    //   this.db
+    //     .collection('cargas')
+    //     .doc('13-08-2019')
+    //     .set(carga);
+    // } catch (error) {
+    //   console.log(error);
+    // }
   }
 
   public saveCarga(carga: Carga) {
-    console.log('before saving carga current: ' + JSON.stringify(this.cargasByDate));
+    console.log('before saving carga current: ' + JSON.stringify(carga));
+
+    const docRef = this.db.collection('cargas').doc(carga.fechaCarga);
 
     this.cargasByDate.cargasDetalles.push(carga.cargasDetalles[0]);
-    this.db
-      .doc<Carga>('cargas/' + carga.fechaCarga)
-      .update(this.cargasByDate)
-      .then(() => console.log('cargas updated successfully'))
-      .catch(error => console.log(error));
+    docRef
+      .set({
+        'fechaCarga': '13-08-2019',
+        'cargasDetalles': JSON.parse(JSON.stringify(this.cargasByDate.cargasDetalles))
+      })
+      .then(() => {
+        console.log('Document successfully updated!');
+      })
+      .catch(error => {
+        console.error('Error updating document: ', error);
+      });
+
+    // this.db
+    //   .doc<Carga>('cargas/' + carga.fechaCarga)
+    //   .set(this.cargasByDate)
+    //   .then(() => console.log('cargas updated successfully'))
+    //   .catch(error => console.log(error));
   }
 
   public fetchOrigenes() {

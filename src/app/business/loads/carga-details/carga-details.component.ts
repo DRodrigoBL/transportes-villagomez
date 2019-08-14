@@ -17,22 +17,23 @@ export class CargaDetailsComponent implements OnInit {
   destino: string;
   chofer: string;
   producto: string;
+  ayudante: string;
 
   constructor() { }
 
   ngOnInit() {
-
-    console.log('truckName> ' + JSON.stringify(this.truckName));
-    console.log('cargasList> ' + JSON.stringify(this.cargas));
+    // console.log('truckName> ' + JSON.stringify(this.truckName));
+    // console.log('cargasList> ' + JSON.stringify(this.cargas));
     this.findCargaDetailsByTruckName();
   }
 
   findCargaDetailsByTruckName() {
     for (const load of this.cargas.cargasDetalles) {
-      console.log('load.camioneta: ' + load.camioneta + '===' + 'truckName');
+      // console.log('load.camioneta: ' + load.camioneta + '===' + 'truckName');
       if (load.camioneta === this.truckName) {
         this.destino = load.nombreDestino;
         this.chofer = load.chofer;
+        this.ayudante = load.ayudante;
         this.producto = this.listProductos(load.productos);
       }
     }
