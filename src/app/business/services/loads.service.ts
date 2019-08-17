@@ -51,6 +51,8 @@ export class LoadsService {
   }
 
   public saveInfo() {
+    console.log('save info method doing nothing');
+
     // const info =
     //   '{"fechaCarga":"11/08/2019","cargasDetalles":[{"camioneta":"C04","chofer":"JUAN MANUEL OZUNA GUAPO","ayudante":"DAMIAN ANDRADE GRANILLO","origen":{"origenId":"1","nombreOrigen":"ROSHFRANS"},"destino":{"destinoId":"1","nombreDestino":"ACTOPAN"},"productos":[{"productoId":"10","nombreProducto":"IMPRESION AMARILLA","cantidad":10,"remision":"ABC","unidadMedida":"BOLSA","unidadesPorMedida":10}]}]}';
     // const carga = JSON.parse(info);
@@ -65,15 +67,20 @@ export class LoadsService {
   }
 
   public saveCarga(carga: Carga) {
-    console.log('before saving carga current: ' + JSON.stringify(carga));
+    // console.log('before saving carga current: ' + JSON.stringify(carga));
 
     const docRef = this.db.collection('cargas').doc(carga.fechaCarga);
-
     this.cargasByDate.cargasDetalles.push(carga.cargasDetalles[0]);
+
+    // console.log('object assign used to save the object>');
+    // console.log(Object.assign({}, this.cargasByDate.cargasDetalles));
+    // TODO: REVISAR PORQUE FUNCIONA DIFERENTE
+    // console.log('json parse used to save the object>');
+    // console.log(JSON.parse(JSON.stringify(this.cargasByDate.cargasDetalles)));
     docRef
       .set({
-        'fechaCarga': '13-08-2019',
-        'cargasDetalles': JSON.parse(JSON.stringify(this.cargasByDate.cargasDetalles))
+        fechaCarga: '13-08-2019',
+        cargasDetalles: JSON.parse(JSON.stringify(this.cargasByDate.cargasDetalles))
       })
       .then(() => {
         console.log('Document successfully updated!');
@@ -95,9 +102,9 @@ export class LoadsService {
       .valueChanges()
       .subscribe(
         (foundOrigenDestinoProducto: Origen[]) => {
-          console.log(
-            'found origenes: ' + JSON.stringify(foundOrigenDestinoProducto)
-          );
+          // console.log(
+          //   'found origenes: ' + JSON.stringify(foundOrigenDestinoProducto)
+          // );
           this.origenes = foundOrigenDestinoProducto;
           this.origenesLoaded.next(this.origenes.slice());
         },

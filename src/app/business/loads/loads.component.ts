@@ -53,7 +53,7 @@ export class LoadsComponent implements OnInit, OnDestroy {
     this.trucksService.trucksLoaded.subscribe((loadedTrucks: Truck[]) => {
       this.trucks = loadedTrucks;
       this.displayTrucks = true;
-      console.log('loaded trucks: ' + JSON.stringify(this.trucks));
+      // console.log('loaded trucks: ' + JSON.stringify(this.trucks));
     });
   }
 
@@ -78,6 +78,7 @@ export class LoadsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    console.log('unsubscribing observables in loads.component.ts');
     if (this.trucksSubscription) {
       this.trucksSubscription.unsubscribe();
     }
