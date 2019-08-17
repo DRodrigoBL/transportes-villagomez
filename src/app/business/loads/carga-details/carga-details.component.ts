@@ -18,6 +18,7 @@ export class CargaDetailsComponent implements OnInit {
   chofer: string;
   producto: string;
   ayudante: string;
+  origen: string;
 
   constructor() { }
 
@@ -31,6 +32,7 @@ export class CargaDetailsComponent implements OnInit {
     for (const load of this.cargas.cargasDetalles) {
       // console.log('load.camioneta: ' + load.camioneta + '===' + 'truckName');
       if (load.camioneta === this.truckName) {
+        this.origen = load.nombreOrigen;
         this.destino = load.nombreDestino;
         this.chofer = load.chofer;
         this.ayudante = load.ayudante;
