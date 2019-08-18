@@ -9,6 +9,7 @@ import { map } from 'rxjs/operators';
 import { Origen } from '../model/origen.model';
 import { Carga } from '../model/carga.model';
 import * as firebase from 'firebase/app';
+import { UpdateCarga } from '../loads/cargas.actions';
 
 @Injectable()
 export class LoadsService {
@@ -64,6 +65,31 @@ export class LoadsService {
     // } catch (error) {
     //   console.log(error);
     // }
+  }
+
+  public updateCarga(carga: Carga) {
+    const docRef = this.db.collection('cargas').doc(carga.fechaCarga);
+    let indexToReplace = 0;
+    for (const cargaToUpdate of this.cargasByDate.cargasDetalles) {
+      if (cargaToUpdate.camioneta === carga.cargasDetalles[0].camioneta) {
+        break;
+      }
+      indexToReplace++;
+    }
+    this.cargasByDate.cargasDetalles[indexToReplace] = carga.cargasDetalles[0];
+    console.log('before updating carga current: ');
+    console.log(this.cargasByDate);
+    docRef
+      .set({
+        fechaCarga: '13-08-2019',
+        cargasDetalles: JSON.parse(JSON.stringify(this.cargasByDate.cargasDetalles))
+      })
+      .then(() => {
+        console.log('Document successfully updated!');
+      })
+      .catch(error => {
+        console.error('Error updating document: ', error);
+      });
   }
 
   public saveCarga(carga: Carga) {
