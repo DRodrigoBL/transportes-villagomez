@@ -39,7 +39,12 @@ export class NewLoadComponent implements OnInit {
   currentOrigen: Origen;
   currentDestino: Destino;
   productosSeleccionados: Producto[] = [];
-  ayudantes = ['RODRIGO', 'GERARDO'];
+  ayudantes = [
+    'DAMIAN ANDRADE GRANILLO',
+    'LUIS MANUEL MORALES VELAZQUEZ',
+    'RAUL SANCHEZ MORENO',
+    'PEDRO ADRIAN VAZQUEZ'
+  ];
 
   // form values to be saved
   cargaToSave: Carga;
