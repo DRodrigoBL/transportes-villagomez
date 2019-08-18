@@ -57,7 +57,7 @@ export class EditLoadComponent implements OnInit {
 
   ngOnInit() {
     this.configureRouterParamsSubs();
-    this.configureCargasForm(); 
+    this.configureCargasForm();
     this.configureOrigenesOptionsSubs();
     this.configureLoadsSubscription();
   }

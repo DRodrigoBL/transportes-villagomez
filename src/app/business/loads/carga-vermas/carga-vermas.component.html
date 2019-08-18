@@ -1,0 +1,44 @@
+<div fxLayoutAlign="center center">
+    <h2>Detalles de la carga</h2>
+</div>
+<div *ngIf="cargaToView" fxLayout="column" fxLayoutAlign="start center">
+    <div class="padding-left-small form-element">
+        <strong>Fecha de servicio:</strong> {{ fechaServicio }}
+    </div>
+    <div class="padding-left-small form-element">
+        <strong>Origen:</strong> {{ cargaDetallesToView.nombreOrigen }}
+    </div>
+    <div class="padding-left-small form-element">
+        <strong>Destino:</strong> {{ cargaDetallesToView.nombreDestino }}
+    </div>
+    <div class="padding-left-small form-element">
+        <strong>Chofer:</strong> {{ cargaDetallesToView.chofer }}
+    </div>
+    <div class="padding-left-small form-element">
+        <div *ngIf="cargaDetallesToView.ayudante">
+            <strong>Ayudante:</strong> {{ cargaDetallesToView.ayudante }}
+        </div>
+        <div *ngIf="!cargaDetallesToView.ayudante">Sin ayudante</div>
+    </div>
+    <div class="padding-left-small form-element">
+        <strong>Total de productos:</strong> {{ cargaDetallesToView.productos.length }}
+    </div>
+    <div class="padding-left-small form-element">
+        <strong>Total de unidades:</strong> {{ calculateTotalUnidades() }}
+    </div>
+
+    <mat-card class="form-element" *ngFor="let prod of cargaDetallesToView.productos; let i=index">
+        <div>
+            {{prod.cantidad}} {{prod.unidadMedida}} de {{ prod.nombreProducto}}.
+        </div>
+        <div>
+            <strong>Remision:</strong> {{ prod.remision }}
+        </div>
+        <div>
+            <strong>Total de unidades:</strong> {{ prod.cantidad * prod.unidadesPorMedida }}
+        </div>
+    </mat-card>
+    <div fxLayout="row" fxLayoutAlign="center center" class="form-element">
+        <a mat-button mat-raised-button color="primary" [routerLink]="['/cargas']">Regresar</a>
+    </div>
+</div>

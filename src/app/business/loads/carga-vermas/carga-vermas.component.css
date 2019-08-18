@@ -1,0 +1,17 @@
+.form-element {
+    width: 350px;
+    margin-bottom: 5px;
+}
+
+.subform-element {
+    width: 75px;
+    padding-left: 10px;
+}
+
+.result {
+ margin-top: 100px;   
+}
+
+.padding-left-small {
+    padding-left: 10px;
+}

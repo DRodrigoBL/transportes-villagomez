@@ -8,6 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NewLoadComponent } from './loads/new-load/new-load.component';
 import { EditLoadComponent } from './loads/edit-load/edit-load.component';
 import { CargaDetailsComponent } from './loads/carga-details/carga-details.component';
+import { CargaVermasComponent } from './loads/carga-vermas/carga-vermas.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { CargaDetailsComponent } from './loads/carga-details/carga-details.compo
     NewLoadComponent,
     EditLoadComponent,
     CargaDetailsComponent,
+    CargaVermasComponent,
   ],
   imports: [
     SharedModule,

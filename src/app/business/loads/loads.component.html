@@ -28,7 +28,10 @@
                 [queryParams]="{fechaCarga: formatDate(), camioneta: truck.name, chofer: truck.driverName}">
                 Agregar carga
             </a>
-
+            <a *ngIf="truckHasLoad(truck.name)" mat-button color="primary" [routerLink]="['/cargas/more']"
+                [queryParams]="{fechaCarga: formatDate(), camioneta: truck.name, chofer: truck.driverName}">
+                Ver más 
+            </a>
             <a *ngIf="truckHasLoad(truck.name)" mat-button color="primary" [routerLink]="['/cargas/edit']"
                 [queryParams]="{fechaCarga: formatDate(), camioneta: truck.name, chofer: truck.driverName}">
                 Editar carga
