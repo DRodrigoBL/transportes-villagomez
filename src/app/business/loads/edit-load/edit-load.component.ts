@@ -194,15 +194,18 @@ export class EditLoadComponent implements OnInit {
     const cargaDetallesValues = this.cargaToEdit.cargasDetalles[0];
     let cantidadToAdd: number;
     let remisionToAdd: string;
+    let loteToAdd: string;
     for (const producto of cargaDetallesValues.productos) {
       if (producto.productoId === productoIdToAdd) {
         cantidadToAdd = producto.cantidad;
         remisionToAdd = producto.remision;
+        loteToAdd = producto.lote;
       }
     }
     const productoForm = this.formBuilder.group({
       cantidad: cantidadToAdd,
-      remision: remisionToAdd
+      remision: remisionToAdd,
+      lote: loteToAdd
     });
     this.productosDetailsForms.push(productoForm);
   }
@@ -240,7 +243,8 @@ export class EditLoadComponent implements OnInit {
         unidadMedida: this.productosSeleccionados[idx].unidadMedida,
         unidadesPorMedida: this.productosSeleccionados[idx].unidadesPorMedida,
         cantidad: this.productosDetailsForms.at(idx).get('cantidad').value,
-        remision: this.productosDetailsForms.at(idx).get('remision').value
+        remision: this.productosDetailsForms.at(idx).get('remision').value,
+        lote: this.productosDetailsForms.at(idx).get('lote').value
       };
       cargaProductosToSave.push(cargaProductoToPush);
       idx++;

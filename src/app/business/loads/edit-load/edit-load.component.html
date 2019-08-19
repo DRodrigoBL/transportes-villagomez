@@ -63,21 +63,24 @@
 
     <div fxLayout="row" fxLayoutAlign="start center" class="form-element"
         *ngIf="productosDetailsForms.controls.length > 0">
-        <div fxFlex="40%">
+        <div fxFlex="30%">
             Producto
         </div>
-        <div fxFlex="30%" style="padding-left: 10px;">
+        <div fxFlex="25%" style="padding-left: 10px; text-align: center;">
             Cantidad
         </div>
-        <div fxFlex="30%" style="padding-left: 10px;">
+        <div fxFlex="25%" style="padding-left: 10px; text-align: center;">
             Remisión
+        </div>
+        <div fxFlex="20%" style="padding-left: 10px; text-align: center;">
+            Lote
         </div>
     </div>
 
     <div formArrayName="productosDetail" fxLayout="column" class="form-element">
         <div *ngFor="let productDetail of productosDetailsForms.controls; let i=index" [formGroupName]="i"
             fxLayout="row" fxLayoutAlign="start center">
-            <div fxFlex="40%">
+            <div fxFlex="30%">
                 {{ productosSeleccionados[i].nombreProducto }}
             </div>
             <div fxFlex="25%">
@@ -88,6 +91,11 @@
             <div fxFlex="25%">
                 <mat-form-field class="subform-element">
                     <input type="text" matInput formControlName="remision">
+                </mat-form-field>
+            </div>
+            <div fxFlex="15%" style="margin-right: 5px;">
+                <mat-form-field class="subform-element">
+                    <input type="text" matInput formControlName="lote">
                 </mat-form-field>
             </div>
         </div>

@@ -34,6 +34,9 @@
         <div>
             <strong>Remision:</strong> {{ prod.remision }}
         </div>
+        <div *ngIf="prod.lote">
+            <strong>Lote:</strong> {{ prod.lote }}
+        </div>
         <div>
             <strong>Total de unidades:</strong> {{ prod.cantidad * prod.unidadesPorMedida }}
         </div>

@@ -21,6 +21,7 @@ export interface CargaProducto {
     nombreProducto: string;
     cantidad: number;
     remision: string;
+    lote?: string;
     unidadMedida: string;
     unidadesPorMedida: number;
 }

@@ -145,7 +145,8 @@ export class NewLoadComponent implements OnInit {
   addProductosDetailsForm() {
     const productoForm = this.formBuilder.group({
       cantidad: [],
-      remision: []
+      remision: [],
+      lote: []
     });
     this.productosDetailsForms.push(productoForm);
   }
@@ -181,7 +182,8 @@ export class NewLoadComponent implements OnInit {
         unidadMedida: this.productosSeleccionados[idx].unidadMedida,
         unidadesPorMedida: this.productosSeleccionados[idx].unidadesPorMedida,
         cantidad: this.productosDetailsForms.at(idx).get('cantidad').value,
-        remision: this.productosDetailsForms.at(idx).get('remision').value
+        remision: this.productosDetailsForms.at(idx).get('remision').value,
+        lote: this.productosDetailsForms.at(idx).get('lote').value
       };
       cargaProductosToSave.push(cargaProductoToPush);
       idx++;
