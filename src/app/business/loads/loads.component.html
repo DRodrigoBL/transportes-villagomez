@@ -11,7 +11,7 @@
     </mat-form-field>
 </div>
 <div fxLayoutAlign="center">
-    <mat-spinner *ngIf="!displayLoads && !displayTrucks"></mat-spinner>
+    <mat-spinner *ngIf="!displayCargas && !displayTrucks"></mat-spinner>
 </div>
 <mat-accordion *ngIf="displayCargas && displayTrucks" class="example-headers-align">
     <mat-expansion-panel *ngFor="let truck of trucks" [expanded]="false" hideToggle>
