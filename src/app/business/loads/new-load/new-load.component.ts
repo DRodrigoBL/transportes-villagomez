@@ -93,11 +93,13 @@ export class NewLoadComponent implements OnInit {
       this.currentOrigen = this.findOrigenById(newOrigenValue);
       this.destinoSelect.reset('0');
       this.deleteAllSelectedProducts();
+      this.productosSelect.reset([]);
     });
 
     this.destinoSelect.valueChanges.subscribe(newDestinoValue => {
       this.deleteAllSelectedProducts();
       this.currentDestino = this.findDestinoById(newDestinoValue);
+      this.productosSelect.reset([]);
     });
   }
 

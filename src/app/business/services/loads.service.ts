@@ -55,13 +55,12 @@ export class LoadsService {
     console.log('save info method doing nothing');
 
     // const info =
-    //   '{"fechaCarga":"11/08/2019","cargasDetalles":[{"camioneta":"C04","chofer":"JUAN MANUEL OZUNA GUAPO","ayudante":"DAMIAN ANDRADE GRANILLO","origen":{"origenId":"1","nombreOrigen":"ROSHFRANS"},"destino":{"destinoId":"1","nombreDestino":"ACTOPAN"},"productos":[{"productoId":"10","nombreProducto":"IMPRESION AMARILLA","cantidad":10,"remision":"ABC","unidadMedida":"BOLSA","unidadesPorMedida":10}]}]}';
-    // const carga = JSON.parse(info);
+    //   '';
+    // const obj = JSON.parse(info);
     // try {
     //   this.db
-    //     .collection('cargas')
-    //     .doc('13-08-2019')
-    //     .set(carga);
+    //     .collection('origen-destino-producto')
+    //     .add(obj);
     // } catch (error) {
     //   console.log(error);
     // }
