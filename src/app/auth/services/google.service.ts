@@ -50,9 +50,9 @@ export class OAuthGoogleService {
         this.authChange.next(true);
         this.router.navigate(['/cargas']);
       } else {
+        this.isAuthenticated = false;
         this.authChange.next(false);
         this.router.navigate(['/login']);
-        this.isAuthenticated = false;
       }
     });
   }
