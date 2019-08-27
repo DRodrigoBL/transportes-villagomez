@@ -123,7 +123,7 @@ export class LoadsService {
 
   public fetchOrigenes() {
     this.db
-      .collection('origen-destino-producto')
+      .collection('origen-destino-producto', ref => ref.orderBy('nombreOrigen'))
       .valueChanges()
       .subscribe(
         (foundOrigenDestinoProducto: Origen[]) => {
