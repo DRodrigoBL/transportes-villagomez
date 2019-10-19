@@ -66,6 +66,31 @@ export class LoadsService {
     // }
   }
 
+  public deleteCarga(carga: Carga) {
+
+    const docRef = this.db.collection('cargas').doc(carga.fechaCarga);
+    let indexToRemove = 0;
+
+    for (const cargaToUpdate of this.cargasByDate.cargasDetalles) {
+      if (cargaToUpdate.camioneta === carga.cargasDetalles[0].camioneta) {
+        break;
+      }
+      indexToRemove++;
+    }
+    this.cargasByDate.cargasDetalles.splice(indexToRemove, 1);
+    docRef
+      .set({
+        fechaCarga: carga.fechaCarga,
+        cargasDetalles: JSON.parse(JSON.stringify(this.cargasByDate.cargasDetalles))
+      })
+      .then(() => {
+        console.log('Document successfully updated!');
+      })
+      .catch(error => {
+        console.error('Error updating document: ', error);
+      });
+  }
+
   public updateCarga(carga: Carga) {
     const docRef = this.db.collection('cargas').doc(carga.fechaCarga);
     let indexToReplace = 0;
@@ -80,7 +105,7 @@ export class LoadsService {
     console.log(this.cargasByDate);
     docRef
       .set({
-        fechaCarga: '13-08-2019',
+        fechaCarga: carga.fechaCarga,
         cargasDetalles: JSON.parse(JSON.stringify(this.cargasByDate.cargasDetalles))
       })
       .then(() => {
@@ -104,7 +129,7 @@ export class LoadsService {
     // console.log(JSON.parse(JSON.stringify(this.cargasByDate.cargasDetalles)));
     docRef
       .set({
-        fechaCarga: '13-08-2019',
+        fechaCarga: carga.fechaCarga,
         cargasDetalles: JSON.parse(JSON.stringify(this.cargasByDate.cargasDetalles))
       })
       .then(() => {
@@ -114,11 +139,6 @@ export class LoadsService {
         console.error('Error updating document: ', error);
       });
 
-    // this.db
-    //   .doc<Carga>('cargas/' + carga.fechaCarga)
-    //   .set(this.cargasByDate)
-    //   .then(() => console.log('cargas updated successfully'))
-    //   .catch(error => console.log(error));
   }
 
   public fetchOrigenes() {

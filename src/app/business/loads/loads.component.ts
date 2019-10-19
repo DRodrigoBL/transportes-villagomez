@@ -1,6 +1,10 @@
 import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatDatepickerInputEvent } from '@angular/material';
+import {
+  MatDatepickerInputEvent,
+  MatDialog,
+  MatSnackBar
+} from '@angular/material';
 
 import { TrucksService } from '../services/trucks.service';
 import { LoadsService } from '../services/loads.service';
@@ -11,6 +15,7 @@ import { Subscription } from 'rxjs';
 import { Moment } from 'moment';
 import * as moment from 'moment';
 import { Carga } from '../model/carga.model';
+import { ConfirmationDialogComponent } from '../../shared/dialog/confirmation.dialog';
 
 @Component({
   selector: 'app-loads',
@@ -30,7 +35,9 @@ export class LoadsComponent implements OnInit, OnDestroy {
 
   constructor(
     private trucksService: TrucksService,
-    private cargasService: LoadsService
+    private cargasService: LoadsService,
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
@@ -68,10 +75,25 @@ export class LoadsComponent implements OnInit, OnDestroy {
     });
   }
 
+  deleteCarga(truckName: string) {
+    for (const carga of this.cargas.cargasDetalles) {
+      if (carga.camioneta === truckName) {
+        const cargaToDelete: Carga = {
+          fechaCarga: this.formatDate(),
+          cargasDetalles: [carga]
+        };
+        console.log('carga to delete in component:');
+        console.log(cargaToDelete);
+        this.cargasService.deleteCarga(cargaToDelete);
+        break;
+      }
+    }
+  }
+
   truckHasLoad(truckName: string) {
     for (const carga of this.cargas.cargasDetalles) {
       if (carga.camioneta === truckName) {
-       return true;
+        return true;
       }
     }
     return false;
@@ -86,14 +108,34 @@ export class LoadsComponent implements OnInit, OnDestroy {
 
   findLoads(dateEvent: MatDatepickerInputEvent<Moment>) {
     this.momentDate = moment(dateEvent.value);
-    console.log(
-      'finding new info for date: ' + this.formatDate()
-    );
+    console.log('finding new info for date: ' + this.formatDate());
 
     this.fetchInformation();
   }
 
   formatDate(): string {
     return this.momentDate.format('DD-MM-YYYY');
+  }
+
+  openDialog(truckName: string) {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        message: '¿Estas seguro que deseas eliminar la carga?',
+        buttonText: {
+          ok: 'Aceptar',
+          cancel: 'Cancelar'
+        }
+      }
+    });
+    const snack = this.snackBar;
+
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        this.deleteCarga(truckName);
+        this.snackBar.open('Carga eliminada', 'Ok', {
+          duration: 2000
+        });
+      }
+    });
   }
 }

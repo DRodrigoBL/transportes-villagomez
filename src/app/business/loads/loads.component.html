@@ -24,18 +24,26 @@
             <app-carga-details [cargas]=cargas [truckName]=truck.name></app-carga-details>
         </div>
         <mat-action-row>
-            <a *ngIf="!truckHasLoad(truck.name)" mat-button color="primary" [routerLink]="['/cargas/new']"
+            <button mat-icon-button aria-label="Eliminar carga" *ngIf="truckHasLoad(truck.name)" mat-button
+                color="primary" (click)="openDialog(truck.name)">
+                <!-- "onDeleteCarga(truck.name)" -->
+                <mat-icon>delete</mat-icon>
+            </button>
+            <button mat-icon-button aria-label="Ver carga" *ngIf="truckHasLoad(truck.name)" mat-button color="primary"
+                [routerLink]="['/cargas/more']"
                 [queryParams]="{fechaCarga: formatDate(), camioneta: truck.name, chofer: truck.driverName}">
-                Agregar carga
-            </a>
-            <a *ngIf="truckHasLoad(truck.name)" mat-button color="primary" [routerLink]="['/cargas/more']"
+                <mat-icon>search</mat-icon>
+            </button>
+            <button mat-icon-button aria-label="Editar carga" *ngIf="truckHasLoad(truck.name)" mat-button
+                color="primary" [routerLink]="['/cargas/edit']"
                 [queryParams]="{fechaCarga: formatDate(), camioneta: truck.name, chofer: truck.driverName}">
-                Ver más 
-            </a>
-            <a *ngIf="truckHasLoad(truck.name)" mat-button color="primary" [routerLink]="['/cargas/edit']"
+                <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button aria-label="Agregar carga" *ngIf="!truckHasLoad(truck.name)" mat-button
+                color="primary" [routerLink]="['/cargas/new']"
                 [queryParams]="{fechaCarga: formatDate(), camioneta: truck.name, chofer: truck.driverName}">
-                Editar carga
-            </a>
+                <mat-icon>add_circle</mat-icon>
+            </button>
         </mat-action-row>
     </mat-expansion-panel>
 </mat-accordion>
