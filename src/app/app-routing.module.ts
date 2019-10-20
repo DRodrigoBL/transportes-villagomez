@@ -4,10 +4,15 @@ import { AuthGuard } from './auth/auth.guard';
 import { WelcomeComponent } from './welcome/welcome.component';
 
 const routes: Routes = [
-  { path: '', component: WelcomeComponent },
+  // { path: '', component: WelcomeComponent },
   {
     path: 'cargas',
     loadChildren: './business/business.module#BusinessModule',
+    canLoad: [AuthGuard]
+  },
+  {
+    path: 'viajes',
+    loadChildren: './viajes/viajes.module#ViajesModule',
     canLoad: [AuthGuard]
   }
 ];

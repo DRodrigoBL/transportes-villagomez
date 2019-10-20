@@ -7,6 +7,10 @@
         <mat-icon>view_comfy</mat-icon>
         <span class="nav-caption">Cargas</span>
     </a>
+    <a mat-list-item routerLink="/viajes" (click)="onClose()" *ngIf="isAuth">
+        <mat-icon>local_shipping</mat-icon>
+        <span class="nav-caption">Viajes</span>
+    </a>
     <mat-list-item>
         <button mat-icon-button (click)="onLogout()" *ngIf="isAuth">
             <mat-icon>eject</mat-icon>

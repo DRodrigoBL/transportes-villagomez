@@ -9,7 +9,6 @@ import { NewLoadComponent } from './loads/new-load/new-load.component';
 import { EditLoadComponent } from './loads/edit-load/edit-load.component';
 import { CargaDetailsComponent } from './loads/carga-details/carga-details.component';
 import { CargaVermasComponent } from './loads/carga-vermas/carga-vermas.component';
-import { ViajesHomeComponent } from './viajes/viajes-home/viajes-home.component';
 
 @NgModule({
   declarations: [
@@ -17,8 +16,7 @@ import { ViajesHomeComponent } from './viajes/viajes-home/viajes-home.component'
     NewLoadComponent,
     EditLoadComponent,
     CargaDetailsComponent,
-    CargaVermasComponent,
-    ViajesHomeComponent,
+    CargaVermasComponent
   ],
   imports: [
     SharedModule,
