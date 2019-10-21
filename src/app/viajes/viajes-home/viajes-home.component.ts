@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import {
   MatDatepickerInputEvent,
@@ -28,10 +28,10 @@ import { ViajesService } from '../../shared/services/viajes.service';
   templateUrl: './viajes-home.component.html',
   styleUrls: ['./viajes-home.component.css']
 })
-export class ViajesHomeComponent implements OnInit {
+export class ViajesHomeComponent implements OnInit, OnDestroy {
 
   trucks: Truck[];
-  cargas: Carga;
+  viajes: Carga;
 
   momentDate: Moment;
   date: FormControl;
@@ -50,8 +50,8 @@ export class ViajesHomeComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // this.configureTrucksSubscription();
-    // this.configureLoadsSubscription();
+    this.configureTrucksSubscription();
+    this.configureLoadsSubscription();
     this.momentDate = moment();
     this.fetchInformation();
   }
@@ -59,15 +59,75 @@ export class ViajesHomeComponent implements OnInit {
   fetchInformation() {
     this.displayTrucks = false;
     this.displayViajes = false;
-    // this.viajesService.findViajesByDateStr(this.dateUtilsService.formatDate(this.momentDate));
     this.viajesService.findViajesByDateStr(this.dateUtilsService.formatDate(this.momentDate));
     this.trucksService.findAllTrucks();
+  }
+
+  configureTrucksSubscription() {
+    this.trucksService.trucksLoaded.subscribe((loadedTrucks: Truck[]) => {
+      this.trucks = loadedTrucks;
+      this.displayTrucks = true;
+    });
+  }
+
+  configureLoadsSubscription() {
+    this.viajesService.viajesByDateLoaded.subscribe((loadedViajes: Carga) => {
+      this.viajes = loadedViajes;
+      if (!this.viajes) {
+        console.log('no hay viajes');
+      }
+      this.displayViajes = true;
+      console.log('loaded viajes: ' + JSON.stringify(this.viajes));
+    });
   }
 
   findViajes(dateEvent: MatDatepickerInputEvent<Moment>) {
     this.momentDate = moment(dateEvent.value);
     console.log('finding new info for date: ' + this.dateUtilsService.formatDate(this.momentDate));
     this.fetchInformation();
+  }
+
+  truckHasViaje(truckName: string) {
+    for (const carga of this.viajes.cargasDetalles) {
+      if (carga.camioneta === truckName) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  ngOnDestroy() {
+    console.log('unsubscribing observables in loads.component.ts');
+    if (this.trucksSubscription) {
+      this.trucksSubscription.unsubscribe();
+    }
+  }
+
+  openDialog(truckName: string) {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        message: '¿Estas seguro que deseas eliminar la carga?',
+        buttonText: {
+          ok: 'Aceptar',
+          cancel: 'Cancelar'
+        }
+      }
+    });
+    const snack = this.snackBar;
+
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        // this.deleteCarga(truckName);
+        console.log('Accion a tomar');
+        this.snackBar.open('Accion a tomar', 'Ok', {
+          duration: 2000
+        });
+      }
+    });
+  }
+
+  formatDate(): string {
+    return this.dateUtilsService.formatDate(this.momentDate);
   }
 
 }
