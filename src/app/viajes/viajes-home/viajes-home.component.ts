@@ -53,6 +53,7 @@ export class ViajesHomeComponent implements OnInit {
   ngOnInit() {
     // this.configureTrucksSubscription();
     // this.configureLoadsSubscription();
+    this.momentDate = moment();
     this.fetchInformation();
   }
 
