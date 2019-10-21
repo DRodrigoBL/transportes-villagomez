@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 
+import { Moment } from 'moment';
 import * as moment from 'moment';
 
 
@@ -18,5 +19,8 @@ export class DateUtilsService {
         return momentDate.day(dayOfWeek + 1).format(this.DATE_FORMAT);
     }
 
+    formatDate(momentToFormat: Moment): string {
+        return momentToFormat.format(this.DATE_FORMAT);
+      }
 
 }
