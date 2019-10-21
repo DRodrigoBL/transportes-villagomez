@@ -7,11 +7,13 @@ import { ViajesRoutingModule } from './viajes-routing.module';
 import { ViajeDetailsComponent } from './viaje-details/viaje-details.component';
 import { NewViajeComponent } from './new-viaje/new.viaje.component';
 import { LoadsService } from '../business/services/loads.service';
+import { EditViajesComponent } from './edit-viaje/edit.viaje.component';
 
 @NgModule({
   declarations: [
     ViajeDetailsComponent,
     NewViajeComponent,
+    EditViajesComponent,
     ViajesHomeComponent
   ],
   imports: [
