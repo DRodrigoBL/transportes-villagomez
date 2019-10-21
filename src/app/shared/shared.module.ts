@@ -7,6 +7,7 @@ import { ConfirmationDialogComponent } from './dialog/confirmation.dialog';
 import { MaterialModule } from '../material.module';
 import { DateUtilsService } from './services/date.utils.service';
 import { ViajesService } from './services/viajes.service';
+import { ViewProductosDialogComponent } from './dialog-view-products/view.products.dialog';
 
 @NgModule({
   imports: [
@@ -24,7 +25,7 @@ import { ViajesService } from './services/viajes.service';
     FlexLayoutModule
   ],
   providers: [DateUtilsService, ViajesService],
-  declarations: [ConfirmationDialogComponent],
-  entryComponents: [ConfirmationDialogComponent]
+  declarations: [ConfirmationDialogComponent, ViewProductosDialogComponent],
+  entryComponents: [ConfirmationDialogComponent, ViewProductosDialogComponent]
 })
 export class SharedModule {}

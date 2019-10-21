@@ -7,6 +7,7 @@ import {
 } from '@angular/material';
 import { ConfirmationDialogComponent } from 'src/app/shared/dialog/confirmation.dialog';
 import { ViajesService } from '../../shared/services/viajes.service';
+import { ViewProductosDialogComponent } from '../../shared/dialog-view-products/view.products.dialog';
 
 @Component({
   selector: 'app-viaje-details',
@@ -54,6 +55,18 @@ export class ViajeDetailsComponent implements OnInit {
     if (event.checked) {
       this.openDialog(viaje, event);
     }
+  }
+
+  verProductos(viaje: CargasDetalles) {
+    const dialogRef = this.dialog.open(ViewProductosDialogComponent, {
+      data: {
+        message: '¿Estas seguro que deseas terminar el viaje?',
+        viajeDetalles: viaje,
+        buttonText: {
+          ok: 'Aceptar'
+        }
+      }
+    });
   }
 
   openDialog(viaje: CargasDetalles, event: MatSlideToggleChange) {
