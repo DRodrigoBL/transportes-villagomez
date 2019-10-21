@@ -52,7 +52,8 @@ export class ViajesHomeComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.configureTrucksSubscription();
     this.configureLoadsSubscription();
-    this.momentDate = moment();
+    this.momentDate = this.dateUtilsService.getTodaysBusinessDate();
+    this.date = new FormControl(this.momentDate);
     this.fetchInformation();
   }
 
