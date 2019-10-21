@@ -60,7 +60,8 @@ export class ViajesHomeComponent implements OnInit {
   fetchInformation() {
     this.displayTrucks = false;
     this.displayCargas = false;
-    this.viajesService.findViajesByDateStr(this.dateUtilsService.formatDate(this.momentDate));
+    // this.viajesService.findViajesByDateStr(this.dateUtilsService.formatDate(this.momentDate));
+    this.viajesService.findViajesByDateStr(this.dateUtilsService.formatDate(this.momentDate.day(1)));
     this.trucksService.findAllTrucks();
   }
 
