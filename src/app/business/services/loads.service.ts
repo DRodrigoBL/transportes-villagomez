@@ -22,7 +22,10 @@ export class LoadsService {
 
   private serviceSubs: Subscription[] = [];
 
-  constructor(private db: AngularFirestore, private dateUtilsService: DateUtilsService) {}
+  constructor(
+    private db: AngularFirestore,
+    private dateUtilsService: DateUtilsService
+  ) {}
 
   public findCargasByDateStr(dateStr: string) {
     // this.db
@@ -36,7 +39,9 @@ export class LoadsService {
           if (!foundCarga || foundCarga.cargasDetalles.length === 0) {
             this.cargasByDate = {
               fechaCarga: dateStr,
-              fechaServicio: this.dateUtilsService.getNextBusinessDayFromDate(dateStr),
+              fechaServicio: this.dateUtilsService.getNextBusinessDayFromDate(
+                dateStr
+              ),
               cargasDetalles: []
             };
           } else {
@@ -69,7 +74,6 @@ export class LoadsService {
   }
 
   public deleteCarga(carga: Carga) {
-
     const docRef = this.db.collection('cargas').doc(carga.fechaCarga);
     let indexToRemove = 0;
 
@@ -83,7 +87,9 @@ export class LoadsService {
     docRef
       .set({
         fechaCarga: carga.fechaCarga,
-        cargasDetalles: JSON.parse(JSON.stringify(this.cargasByDate.cargasDetalles))
+        cargasDetalles: JSON.parse(
+          JSON.stringify(this.cargasByDate.cargasDetalles)
+        )
       })
       .then(() => {
         console.log('Document successfully updated!');
@@ -108,7 +114,9 @@ export class LoadsService {
     docRef
       .set({
         fechaCarga: carga.fechaCarga,
-        cargasDetalles: JSON.parse(JSON.stringify(this.cargasByDate.cargasDetalles))
+        cargasDetalles: JSON.parse(
+          JSON.stringify(this.cargasByDate.cargasDetalles)
+        )
       })
       .then(() => {
         console.log('Document successfully updated!');
@@ -121,18 +129,25 @@ export class LoadsService {
   public saveCarga(carga: Carga) {
     // console.log('before saving carga current: ' + JSON.stringify(carga));
 
-    const docRef = this.db.collection('cargas').doc(carga.fechaCarga);
     this.cargasByDate.cargasDetalles.push(carga.cargasDetalles[0]);
+
+    const fechaServicioFromCarga = this.dateUtilsService.getNextBusinessDayFromDate(
+      carga.fechaCarga
+    );
 
     // console.log('object assign used to save the object>');
     // console.log(Object.assign({}, this.cargasByDate.cargasDetalles));
     // TODO: REVISAR PORQUE FUNCIONA DIFERENTE
     // console.log('json parse used to save the object>');
     // console.log(JSON.parse(JSON.stringify(this.cargasByDate.cargasDetalles)));
-    docRef
+    const cargasDocRef = this.db.collection('cargas').doc(carga.fechaCarga);
+    cargasDocRef
       .set({
         fechaCarga: carga.fechaCarga,
-        cargasDetalles: JSON.parse(JSON.stringify(this.cargasByDate.cargasDetalles))
+        fechaServicio: fechaServicioFromCarga,
+        cargasDetalles: JSON.parse(
+          JSON.stringify(this.cargasByDate.cargasDetalles)
+        )
       })
       .then(() => {
         console.log('Document successfully updated!');
@@ -141,6 +156,21 @@ export class LoadsService {
         console.error('Error updating document: ', error);
       });
 
+    const viajesDocRef = this.db.collection('viajes').doc(fechaServicioFromCarga);
+    viajesDocRef
+      .set({
+        fechaCarga: carga.fechaCarga,
+        fechaServicio: fechaServicioFromCarga,
+        cargasDetalles: JSON.parse(
+          JSON.stringify(this.cargasByDate.cargasDetalles)
+        )
+      })
+      .then(() => {
+        console.log('Document successfully updated!');
+      })
+      .catch(error => {
+        console.error('Error updating document: ', error);
+      });
   }
 
   public fetchOrigenes() {
