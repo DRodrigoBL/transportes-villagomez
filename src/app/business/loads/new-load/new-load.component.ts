@@ -12,6 +12,7 @@ import {
 import { Origen, Destino, Producto } from '../../model/origen.model';
 import { LoadsService } from '../../services/loads.service';
 import { Carga, CargasDetalles, CargaProducto } from '../../model/carga.model';
+import { DateUtilsService } from '../../../shared/date.utils.service';
 
 @Component({
   selector: 'app-new-load',
@@ -20,7 +21,7 @@ import { Carga, CargasDetalles, CargaProducto } from '../../model/carga.model';
 })
 export class NewLoadComponent implements OnInit {
   // router params
-  fechaServicio: string;
+  fechaCargaView: string;
   camioneta: string;
   chofer: string;
 
@@ -28,7 +29,8 @@ export class NewLoadComponent implements OnInit {
     private formBuilder: FormBuilder,
     private cargasService: LoadsService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private dateUtilsService: DateUtilsService
   ) {}
 
   // form objects
@@ -68,7 +70,7 @@ export class NewLoadComponent implements OnInit {
 
   configureRouterParamsSubs() {
     this.route.queryParamMap.subscribe(queryParams => {
-      this.fechaServicio = queryParams.get('fechaCarga');
+      this.fechaCargaView = queryParams.get('fechaCarga');
       this.camioneta = queryParams.get('camioneta');
       this.chofer = queryParams.get('chofer');
     });
@@ -79,7 +81,7 @@ export class NewLoadComponent implements OnInit {
       origen: '0',
       destino: null,
       productos: null,
-      fechaCarga: this.fechaServicio,
+      fechaCarga: this.fechaCargaView,
       camioneta: this.camioneta,
       hasAyudante: false,
       ayudante: null,
@@ -105,7 +107,8 @@ export class NewLoadComponent implements OnInit {
 
   submitCarga() {
     this.cargaToSave = {
-      fechaCarga: this.fechaServicio,
+      fechaCarga: this.fechaCargaView,
+      fechaServicio: this.dateUtilsService.getNextBusinessDayFromDate(this.fechaCargaView),
       cargasDetalles: [
         {
           camioneta: this.camioneta,
@@ -142,6 +145,10 @@ export class NewLoadComponent implements OnInit {
 
   get productosDetailsForms() {
     return this.cargasForm.get('productosDetail') as FormArray;
+  }
+
+  get fechaServicioFromFechaCarga() {
+    return this.dateUtilsService.getNextBusinessDayFromDate(this.fechaCargaView);
   }
 
   addProductosDetailsForm() {

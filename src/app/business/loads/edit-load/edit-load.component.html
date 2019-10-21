@@ -1,9 +1,13 @@
 <div fxLayoutAlign="center center">
     <h2 style="margin-bottom: 0px;">Editar carga</h2>
 </div>
-<div fxLayoutAlign="center center">
-    <h3 style="margin-bottom: 10px;">Fecha de servicio: {{ fechaServicio }}
-    </h3>
+<div fxLayout="column" fxLayoutAlign="center center">
+    <h4 style="margin-bottom: 3px;">Fecha de carga: {{ fechaCargaView }}
+    </h4>
+    <h4 style="margin-bottom: 3px;margin-top: 3px;">Fecha de servicio: {{ fechaServicioFromFechaCarga }}
+    </h4>
+    <h4 style="margin-bottom: 10px;margin-top: 3px;">Camioneta: {{ camioneta }}
+    </h4>
 </div>
 <form [formGroup]="cargasForm" fxLayout="column" fxLayoutAlign="center center" (ngSubmit)="submitCarga()">
 

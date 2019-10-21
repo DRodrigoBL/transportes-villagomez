@@ -6,6 +6,7 @@ import { ConfirmationDialogComponent } from './dialog/confirmation.dialog';
 
 
 import { MaterialModule } from '../material.module';
+import { DateUtilsService } from './date.utils.service';
 
 @NgModule({
   imports: [
@@ -22,6 +23,7 @@ import { MaterialModule } from '../material.module';
     MaterialModule,
     FlexLayoutModule
   ],
+  providers: [DateUtilsService],
   declarations: [ConfirmationDialogComponent],
   entryComponents: [ConfirmationDialogComponent]
 })

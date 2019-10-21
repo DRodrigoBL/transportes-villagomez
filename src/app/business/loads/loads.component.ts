@@ -80,6 +80,7 @@ export class LoadsComponent implements OnInit, OnDestroy {
       if (carga.camioneta === truckName) {
         const cargaToDelete: Carga = {
           fechaCarga: this.formatDate(),
+          fechaServicio: '',
           cargasDetalles: [carga]
         };
         console.log('carga to delete in component:');

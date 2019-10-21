@@ -12,6 +12,7 @@ import {
 import { LoadsService } from '../../services/loads.service';
 import { Origen, Destino, Producto } from '../../model/origen.model';
 import { Carga, CargasDetalles, CargaProducto } from '../../model/carga.model';
+import { DateUtilsService } from 'src/app/shared/date.utils.service';
 
 @Component({
   selector: 'app-edit-load',
@@ -20,7 +21,7 @@ import { Carga, CargasDetalles, CargaProducto } from '../../model/carga.model';
 })
 export class EditLoadComponent implements OnInit {
   // router params
-  fechaServicio: string;
+  fechaCargaView: string;
   camioneta: string;
   chofer: string;
 
@@ -28,7 +29,8 @@ export class EditLoadComponent implements OnInit {
     private formBuilder: FormBuilder,
     private cargasService: LoadsService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private dateUtilsService: DateUtilsService
   ) {}
 
   // form objects
@@ -69,7 +71,7 @@ export class EditLoadComponent implements OnInit {
 
   configureRouterParamsSubs() {
     this.route.queryParamMap.subscribe(queryParams => {
-      this.fechaServicio = queryParams.get('fechaCarga');
+      this.fechaCargaView = queryParams.get('fechaCarga');
       this.camioneta = queryParams.get('camioneta');
       this.chofer = queryParams.get('chofer');
       this.cargasService.fetchOrigenes();
@@ -79,7 +81,7 @@ export class EditLoadComponent implements OnInit {
   configureOrigenesOptionsSubs() {
     this.cargasService.origenesLoaded.subscribe((loadedOrigenes: Origen[]) => {
       this.origenOptions = loadedOrigenes;
-      this.cargasService.findCargasByDateStr(this.fechaServicio);
+      this.cargasService.findCargasByDateStr(this.fechaCargaView);
     });
   }
 
@@ -99,7 +101,7 @@ export class EditLoadComponent implements OnInit {
     for (const carga of this.cargasOnDateLoaded.cargasDetalles) {
       if (carga.camioneta === this.camioneta) {
         return {
-          fechaCarga: this.fechaServicio,
+          fechaCarga: this.fechaCargaView,
           cargasDetalles: [carga]
         };
       }
@@ -124,7 +126,7 @@ export class EditLoadComponent implements OnInit {
       origen: this.origenIdToEdit,
       destino: this.destinoIdToEdit,
       productos: null,
-      fechaCarga: this.fechaServicio,
+      fechaCarga: this.fechaCargaView,
       camioneta: this.camioneta,
       hasAyudante: false,
       ayudante: null,
@@ -148,7 +150,7 @@ export class EditLoadComponent implements OnInit {
 
   submitCarga() {
     this.cargaToSave = {
-      fechaCarga: this.fechaServicio,
+      fechaCarga: this.fechaCargaView,
       cargasDetalles: [
         {
           camioneta: this.camioneta,
@@ -187,6 +189,10 @@ export class EditLoadComponent implements OnInit {
 
   get productosDetailsForms() {
     return this.cargasForm.get('productosDetail') as FormArray;
+  }
+
+  get fechaServicioFromFechaCarga() {
+    return this.dateUtilsService.getNextBusinessDayFromDate(this.fechaCargaView);
   }
 
   // methods to operate form information.

@@ -2,6 +2,7 @@
 export interface Carga {
     id?: string;
     fechaCarga: string;
+    fechaServicio: string;
     cargasDetalles: CargasDetalles[];
 }
 
