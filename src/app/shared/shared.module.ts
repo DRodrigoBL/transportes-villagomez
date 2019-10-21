@@ -4,9 +4,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ConfirmationDialogComponent } from './dialog/confirmation.dialog';
 
-
 import { MaterialModule } from '../material.module';
 import { DateUtilsService } from './date.utils.service';
+import { ViajesService } from './services/viajes.service';
 
 @NgModule({
   imports: [
@@ -23,7 +23,7 @@ import { DateUtilsService } from './date.utils.service';
     MaterialModule,
     FlexLayoutModule
   ],
-  providers: [DateUtilsService],
+  providers: [DateUtilsService, ViajesService],
   declarations: [ConfirmationDialogComponent],
   entryComponents: [ConfirmationDialogComponent]
 })

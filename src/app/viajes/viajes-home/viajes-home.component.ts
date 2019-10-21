@@ -1,5 +1,27 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import {
+  MatDatepickerInputEvent,
+  MatDialog,
+  MatSnackBar
+} from '@angular/material';
+
+import { TrucksService } from '../../business/services/trucks.service';
+import { LoadsService } from '../../business/services/loads.service';
+
+import { Truck } from '../../business/model/truck.model';
+import { Carga } from '../../business/model/carga.model';
+
+import { ConfirmationDialogComponent } from '../../shared/dialog/confirmation.dialog';
+
+import { Subscription } from 'rxjs';
+
+import { Moment } from 'moment';
+import * as moment from 'moment';
+
+
 import { DateUtilsService } from '../../shared/date.utils.service';
+import { ViajesService } from '../../shared/services/viajes.service';
 
 @Component({
   selector: 'app-viajes-home',
@@ -8,10 +30,37 @@ import { DateUtilsService } from '../../shared/date.utils.service';
 })
 export class ViajesHomeComponent implements OnInit {
 
-  constructor(private dateUtilsService: DateUtilsService) { }
+  trucks: Truck[];
+  cargas: Carga;
+
+  momentDate: Moment;
+  date: FormControl;
+
+  displayCargas: boolean;
+  displayTrucks: boolean;
+  private trucksSubscription: Subscription;
+
+
+  constructor(
+    private trucksService: TrucksService,
+    // private cargasService: LoadsService,
+    private viajesService: ViajesService,
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar,
+    private dateUtilsService: DateUtilsService
+  ) {}
 
   ngOnInit() {
-    console.log(this.dateUtilsService.getNextBusinessDayFromDate('25-10-2019'));
+    // this.configureTrucksSubscription();
+    // this.configureLoadsSubscription();
+    this.fetchInformation();
+  }
+
+  fetchInformation() {
+    this.displayTrucks = false;
+    this.displayCargas = false;
+    this.viajesService.findViajesByDateStr(this.dateUtilsService.formatDate(this.momentDate));
+    this.trucksService.findAllTrucks();
   }
 
 }
