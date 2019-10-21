@@ -102,6 +102,7 @@ export class EditLoadComponent implements OnInit {
       if (carga.camioneta === this.camioneta) {
         return {
           fechaCarga: this.fechaCargaView,
+          fechaServicio: this.cargasOnDateLoaded.fechaServicio,
           cargasDetalles: [carga]
         };
       }
@@ -151,6 +152,7 @@ export class EditLoadComponent implements OnInit {
   submitCarga() {
     this.cargaToSave = {
       fechaCarga: this.fechaCargaView,
+      fechaServicio: this.dateUtilsService.getNextBusinessDayFromDate(this.fechaCargaView),
       cargasDetalles: [
         {
           camioneta: this.camioneta,

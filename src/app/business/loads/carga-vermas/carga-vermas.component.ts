@@ -12,7 +12,7 @@ import { Carga, CargasDetalles, CargaProducto } from '../../model/carga.model';
 })
 export class CargaVermasComponent implements OnInit {
   // router params
-  fechaServicio: string;
+  fechaCargaView: string;
   camioneta: string;
   chofer: string;
 
@@ -34,10 +34,10 @@ export class CargaVermasComponent implements OnInit {
 
   configureRouterParamsSubs() {
     this.route.queryParamMap.subscribe(queryParams => {
-      this.fechaServicio = queryParams.get('fechaCarga');
+      this.fechaCargaView = queryParams.get('fechaCarga');
       this.camioneta = queryParams.get('camioneta');
       this.chofer = queryParams.get('chofer');
-      this.cargasService.findCargasByDateStr(this.fechaServicio);
+      this.cargasService.findCargasByDateStr(this.fechaCargaView);
     });
   }
 
@@ -64,7 +64,8 @@ export class CargaVermasComponent implements OnInit {
     for (const carga of this.cargaFetchedFromService.cargasDetalles) {
       if (carga.camioneta === this.camioneta) {
         return {
-          fechaCarga: this.fechaServicio,
+          fechaCarga: this.fechaCargaView,
+          fechaServicio: this.cargaFetchedFromService.fechaServicio,
           cargasDetalles: [carga]
         };
       }

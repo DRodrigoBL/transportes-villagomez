@@ -3,7 +3,10 @@
 </div>
 <div *ngIf="cargaToView" fxLayout="column" fxLayoutAlign="start center">
     <div class="padding-left-small form-element">
-        <strong>Fecha de servicio:</strong> {{ fechaServicio }}
+        <strong>Fecha de carga:</strong> {{ cargaFetchedFromService.fechaCarga }}
+    </div>
+    <div class="padding-left-small form-element">
+        <strong>Fecha de servicio:</strong> {{ cargaFetchedFromService.fechaServicio }}
     </div>
     <div class="padding-left-small form-element">
         <strong>Origen:</strong> {{ cargaDetallesToView.nombreOrigen }}
