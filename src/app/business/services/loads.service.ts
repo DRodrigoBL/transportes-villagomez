@@ -131,6 +131,7 @@ export class LoadsService {
 
 
     carga.cargasDetalles[0].isViajeTerminado = false;
+    carga.cargasDetalles[0].viajeIndex = 1;
 
     this.cargasByDate.cargasDetalles.push(carga.cargasDetalles[0]);
 

@@ -50,7 +50,7 @@ export class ViajeDetailsComponent implements OnInit {
 
   orderedViajesDetallesToDisplay(): CargasDetalles[] {
     return this.viajesDetallesToDisplay.sort((a, b) =>
-      a.viajeIndex > b.viajeIndex ? 1 : -1
+      a.viajeIndex < b.viajeIndex ? 1 : -1
     );
   }
 
@@ -112,7 +112,7 @@ export class ViajeDetailsComponent implements OnInit {
 
   isCamionetaFree(): boolean {
     const orderedViajesDetalles = this.orderedViajesDetallesToDisplay();
-    return !orderedViajesDetalles[orderedViajesDetalles.length - 1].isViajeTerminado;
+    return !orderedViajesDetalles[0].isViajeTerminado;
   }
 
   terminarViaje(viaje: CargasDetalles) {

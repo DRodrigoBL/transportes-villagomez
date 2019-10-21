@@ -6,6 +6,7 @@
 <hr>
 <div *ngFor="let viaje of orderedViajesDetallesToDisplay(); let i index">
     <button mat-icon-button aria-label="Editar viaje" mat-button color="primary" 
+        *ngIf="!viaje.isViajeTerminado"
         [routerLink]="['/viajes/edit']"
         [queryParams]="{fechaServicio: formatDate(), camioneta: camioneta.name, 
             chofer: camioneta.driverName, viajeIndex: viaje.viajeIndex}">
