@@ -104,4 +104,27 @@ export class ViajesService {
         }
       );
   }
+
+  public saveViaje(viaje: Carga) {
+    console.log('before saving viaje: ');
+    console.log(viaje);
+
+    this.viajesByDate.cargasDetalles.push(viaje.cargasDetalles[0]);
+
+    const viajesDocRef = this.db.collection('viajes').doc(viaje.fechaServicio);
+    viajesDocRef
+      .set({
+        fechaCarga: viaje.fechaCarga,
+        fechaServicio: viaje.fechaServicio,
+        cargasDetalles: JSON.parse(
+          JSON.stringify(this.viajesByDate.cargasDetalles)
+        )
+      })
+      .then(() => {
+        console.log('Document successfully updated!');
+      })
+      .catch(error => {
+        console.error('Error updating document: ', error);
+      });
+  }
 }

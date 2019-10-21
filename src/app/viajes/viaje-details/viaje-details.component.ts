@@ -1,5 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Carga, CargaProducto, CargasDetalles } from '../../business/model/carga.model';
+import {
+  Carga,
+  CargaProducto,
+  CargasDetalles
+} from '../../business/model/carga.model';
 import {
   MatSlideToggleChange,
   MatDialog,
@@ -8,6 +12,7 @@ import {
 import { ConfirmationDialogComponent } from 'src/app/shared/dialog/confirmation.dialog';
 import { ViajesService } from '../../shared/services/viajes.service';
 import { ViewProductosDialogComponent } from '../../shared/dialog-view-products/view.products.dialog';
+import { DateUtilsService } from '../../shared/services/date.utils.service';
 
 @Component({
   selector: 'app-viaje-details',
@@ -28,7 +33,8 @@ export class ViajeDetailsComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
-    private viajesService: ViajesService
+    private viajesService: ViajesService,
+    private dateUtilsService: DateUtilsService
   ) {}
 
   ngOnInit() {
@@ -41,6 +47,12 @@ export class ViajeDetailsComponent implements OnInit {
         this.viajesDetallesToDisplay.push(viaje);
       }
     }
+  }
+
+  orderedViajesDetallesToDisplay(): CargasDetalles[] {
+    return this.viajesDetallesToDisplay.sort((a, b) =>
+      a.viajeIndex > b.viajeIndex ? 1 : -1
+    );
   }
 
   listProductos(productos: CargaProducto[]): string {

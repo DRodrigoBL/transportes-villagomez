@@ -1,0 +1,116 @@
+<div fxLayoutAlign="center center">
+    <h2 style="margin-bottom: 0px;">Agregar viaje</h2>
+</div>
+<div fxLayout="column" fxLayoutAlign="center center">
+    <h4 style="margin-bottom: 3px;margin-top: 3px;">Fecha de servicio: {{ fechaServicioView }}
+    </h4>
+    <h4 style="margin-bottom: 10px;margin-top: 3px;">Camioneta: {{ camioneta }}
+    </h4>
+</div>
+<form [formGroup]="cargasForm" fxLayout="column" fxLayoutAlign="center center" 
+    (ngSubmit)="submitViaje()">
+
+    <mat-form-field class="form-element">
+        <mat-label>Origen</mat-label>
+        <mat-select formControlName="origen">
+            <mat-option value="0">
+                Seleccione Origen
+            </mat-option>
+            <mat-option *ngFor="let orig of origenOptions" [value]="orig.id"
+                (onSelectionChange)="updateOrigenToSave($event, orig)">
+                {{ orig.nombreOrigen }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="form-element" *ngIf="currentOrigen">
+        <mat-label>Destino</mat-label>
+        <mat-select formControlName="destino">
+            <mat-option value="0">
+                Seleccione Destino
+            </mat-option>
+            <mat-option *ngFor="let destino of currentOrigen.destinos" [value]="destino.id"
+                (onSelectionChange)="updateDestinoToSave($event, destino)">
+                {{ destino.nombreDestino }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+
+    <mat-slide-toggle formControlName="hasAyudante" *ngIf="currentDestino">¿Ayudante?</mat-slide-toggle>
+
+    <div *ngIf="hasAyudante.value && currentDestino">
+        <mat-form-field class="form-element">
+            <mat-label>Ayudante</mat-label>
+            <mat-select formControlName="ayudante">
+                <mat-option value="0">
+                    Seleccione Ayudante
+                </mat-option>
+                <mat-option *ngFor="let ayudante of ayudantes" [value]="ayudante"
+                    (onSelectionChange)="updateAyudanteToSave($event, ayudante)">
+                    {{ ayudante }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <mat-form-field class="form-element" *ngIf="currentDestino">
+        <mat-label>Productos</mat-label>
+        <mat-select formControlName="productos" multiple>
+            <mat-option *ngFor="let prod of currentDestino.productos" [value]="prod.id"
+                (onSelectionChange)="productChange($event, prod)">
+                {{ prod.nombreProducto }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <div fxLayout="row" fxLayoutAlign="start center" class="form-element"
+        *ngIf="productosDetailsForms.controls.length > 0">
+        <div fxFlex="30%">
+            Producto
+        </div>
+        <div fxFlex="25%" style="padding-left: 10px; text-align: center;">
+            Cantidad
+        </div>
+        <div fxFlex="25%" style="padding-left: 10px; text-align: center;">
+            Remisión
+        </div>
+        <div fxFlex="20%" style="padding-left: 10px; text-align: center;">
+            Lote
+        </div>
+    </div>
+
+    <div formArrayName="productosDetail" fxLayout="column" class="form-element">
+        <div *ngFor="let productDetail of productosDetailsForms.controls; let i=index" [formGroupName]="i"
+            fxLayout="row" fxLayoutAlign="start center">
+            <div fxFlex="30%">
+                {{ productosSeleccionados[i].nombreProducto }}
+            </div>
+            <div fxFlex="25%">
+                <mat-form-field class="subform-element">
+                    <input type="text" matInput formControlName="cantidad">
+                </mat-form-field>
+            </div>
+            <div fxFlex="25%">
+                <mat-form-field class="subform-element">
+                    <input type="text" matInput formControlName="remision">
+                </mat-form-field>
+            </div>
+            <div fxFlex="15%" style="margin-right: 5px;">
+                <mat-form-field class="subform-element">
+                    <input type="text" matInput formControlName="lote">
+                </mat-form-field>
+            </div>
+            <!-- <div fxFlex="10%">
+                <button mat-icon-button aria-label="Eliminar" (click)="deleteProduct(i)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </div> -->
+        </div>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="space-between space-around" class="form-element">
+        <a mat-stroked-button color="warn" [routerLink]="['/cargas']">Regresar</a>
+        <button mat-button mat-raised-button color="primary">Guardar Carga</button>
+    </div>
+</form>

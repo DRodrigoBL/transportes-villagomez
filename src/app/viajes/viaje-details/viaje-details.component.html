@@ -1,9 +1,7 @@
-Agregar viaje
-<hr>
-Editar viaje
+
 <br>
 
-<div *ngFor="let viaje of viajesDetallesToDisplay; let i index">
+<div *ngFor="let viaje of orderedViajesDetallesToDisplay(); let i index">
     <mat-slide-toggle [checked]="viaje.isViajeTerminado" [disabled]="viaje.isViajeTerminado"
         (change)="isViajeTerminadoChange($event, viaje)">
         ¿Viaje terminado?
@@ -14,8 +12,7 @@ Editar viaje
     Chofer: {{ viaje.chofer }}
     <br>
     Productos
-    <button mat-icon-button aria-label="Ver productos" 
-        mat-button color="primary" (click)="verProductos(viaje)">
+    <button mat-icon-button aria-label="Ver productos" mat-button color="primary" (click)="verProductos(viaje)">
         <mat-icon>search</mat-icon>
     </button>
     <br>
