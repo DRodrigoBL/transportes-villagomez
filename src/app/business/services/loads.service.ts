@@ -129,6 +129,9 @@ export class LoadsService {
   public saveCarga(carga: Carga) {
     // console.log('before saving carga current: ' + JSON.stringify(carga));
 
+
+    carga.cargasDetalles[0].isViajeTerminado = false;
+
     this.cargasByDate.cargasDetalles.push(carga.cargasDetalles[0]);
 
     const fechaServicioFromCarga = this.dateUtilsService.getNextBusinessDayFromDate(
@@ -155,6 +158,7 @@ export class LoadsService {
       .catch(error => {
         console.error('Error updating document: ', error);
       });
+
 
     const viajesDocRef = this.db.collection('viajes').doc(fechaServicioFromCarga);
     viajesDocRef

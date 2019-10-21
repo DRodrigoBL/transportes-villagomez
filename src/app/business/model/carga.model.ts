@@ -10,6 +10,8 @@ export interface CargasDetalles {
     camioneta: string;
     chofer: string;
     ayudante?: string;
+    isViajeTerminado?: boolean;
+    viajeIndex?: number;
     destinoId: string;
     nombreDestino: string;
     origenId: string;
