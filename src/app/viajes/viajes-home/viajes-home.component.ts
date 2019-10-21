@@ -36,14 +36,13 @@ export class ViajesHomeComponent implements OnInit {
   momentDate: Moment;
   date: FormControl;
 
-  displayCargas: boolean;
+  displayViajes: boolean;
   displayTrucks: boolean;
   private trucksSubscription: Subscription;
 
 
   constructor(
     private trucksService: TrucksService,
-    // private cargasService: LoadsService,
     private viajesService: ViajesService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
@@ -59,10 +58,16 @@ export class ViajesHomeComponent implements OnInit {
 
   fetchInformation() {
     this.displayTrucks = false;
-    this.displayCargas = false;
+    this.displayViajes = false;
     // this.viajesService.findViajesByDateStr(this.dateUtilsService.formatDate(this.momentDate));
-    this.viajesService.findViajesByDateStr(this.dateUtilsService.formatDate(this.momentDate.day(1)));
+    this.viajesService.findViajesByDateStr(this.dateUtilsService.formatDate(this.momentDate));
     this.trucksService.findAllTrucks();
+  }
+
+  findViajes(dateEvent: MatDatepickerInputEvent<Moment>) {
+    this.momentDate = moment(dateEvent.value);
+    console.log('finding new info for date: ' + this.dateUtilsService.formatDate(this.momentDate));
+    this.fetchInformation();
   }
 
 }

@@ -1,1 +1,15 @@
-<p>viajes-home works!</p>
+<div fxLayoutAlign="center center">
+    <h1>Viajes</h1>
+</div>
+<hr>
+<div fxLayoutAlign="center center">
+    <mat-form-field>
+        <input matInput [matDatepicker]="picker" placeholder="Fecha" [formControl]="date"
+            (dateChange)="findViajes($event)">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+</div>
+<div fxLayoutAlign="center">
+    <mat-spinner *ngIf="!displayViajes && !displayTrucks"></mat-spinner>
+</div>
