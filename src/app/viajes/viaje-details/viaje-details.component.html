@@ -3,15 +3,18 @@ Agregar viaje
 Editar viaje
 <br>
 
-<mat-slide-toggle  [checked]="isViajeTerminado" (change)="isViajeTerminadoChange($event)">
-    ¿Viaje terminado?
-</mat-slide-toggle>
-<br>
-{{ origen }} => {{ destino }}
-<br>
-Chofer: {{ chofer }}
-<br>
-Producto: {{ producto }}
-<br>
-<div *ngIf="ayudante">Ayudante: {{ ayudante }}</div>
-<div *ngIf="!ayudante">Sin ayudante</div>
+<div *ngFor="let viaje of viajesDetallesToDisplay; let i index">
+    <mat-slide-toggle [checked]="viaje.isViajeTerminado" [disabled]="viaje.isViajeTerminado"
+    (change)="isViajeTerminadoChange($event, viaje)">
+        ¿Viaje terminado?
+    </mat-slide-toggle>
+    <br>
+    {{ viaje.nombreOrigen }} => {{ viaje.nombreDestino }}
+    <br>
+    Chofer: {{ viaje.chofer }}
+    <br>
+    Producto: {{ viaje.productos }}
+    <br>
+    <div *ngIf="viaje.ayudante">Ayudante: {{ viaje.ayudante }}</div>
+    <div *ngIf="!viaje.ayudante">Sin ayudante</div>
+</div>

@@ -1,7 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Carga, CargaProducto } from '../../business/model/carga.model';
-import { MatSlideToggleChange, MatDialog, MatSnackBar } from '@angular/material';
+import { Carga, CargaProducto, CargasDetalles } from '../../business/model/carga.model';
+import {
+  MatSlideToggleChange,
+  MatDialog,
+  MatSnackBar
+} from '@angular/material';
 import { ConfirmationDialogComponent } from 'src/app/shared/dialog/confirmation.dialog';
+import { ViajesService } from '../../shared/services/viajes.service';
 
 @Component({
   selector: 'app-viaje-details',
@@ -15,14 +20,15 @@ export class ViajeDetailsComponent implements OnInit {
   @Input()
   viajes: Carga;
 
-  isViajeTerminado: boolean;
-  destino: string;
-  chofer: string;
-  producto: string;
-  ayudante: string;
-  origen: string;
+  viajesTerminados: boolean[] = [false];
 
-  constructor(private dialog: MatDialog, private snackBar: MatSnackBar) {}
+  viajesDetallesToDisplay: CargasDetalles[] = [];
+
+  constructor(
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar,
+    private viajesService: ViajesService
+  ) {}
 
   ngOnInit() {
     this.findViajeDetailsByTruckName();
@@ -31,11 +37,7 @@ export class ViajeDetailsComponent implements OnInit {
   findViajeDetailsByTruckName() {
     for (const viaje of this.viajes.cargasDetalles) {
       if (viaje.camioneta === this.truckName) {
-        this.origen = viaje.nombreOrigen;
-        this.destino = viaje.nombreDestino;
-        this.chofer = viaje.chofer;
-        this.ayudante = viaje.ayudante;
-        this.producto = this.listProductos(viaje.productos);
+        this.viajesDetallesToDisplay.push(viaje);
       }
     }
   }
@@ -48,14 +50,13 @@ export class ViajeDetailsComponent implements OnInit {
     return productosStr.substr(0, productosStr.length - 2);
   }
 
-  isViajeTerminadoChange(event: MatSlideToggleChange) {
-    this.isViajeTerminado = event.checked;
-    if (this.isViajeTerminado) {
-      this.openDialog(0);
+  isViajeTerminadoChange(event: MatSlideToggleChange, viaje: CargasDetalles) {
+    if (event.checked) {
+      this.openDialog(viaje, event);
     }
   }
 
-  openDialog(viajeIndex: number) {
+  openDialog(viaje: CargasDetalles, event: MatSlideToggleChange) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       data: {
         message: '¿Estas seguro que deseas terminar el viaje?',
@@ -69,20 +70,23 @@ export class ViajeDetailsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((confirmed: boolean) => {
       if (confirmed) {
-        this.terminarViaje(viajeIndex);
-        console.log('Actualizar viaje a terminado y liberar camioneta');
+        event.source.disabled = true;
+        viaje.isViajeTerminado = true;
+        this.terminarViaje(viaje);
         this.snackBar.open('Viaje terminado con éxito', 'Ok', {
-          duration: 2000
+          duration: 4000
         });
       } else {
-        this.isViajeTerminado = false;
+        event.source.checked = false;
       }
     });
   }
-  terminarViaje(viajeIndex: number) {
-    this.isViajeTerminado = true;
-    console.log('Viaje index: ' + viajeIndex);
+  terminarViaje(viaje: CargasDetalles) {
     console.log('Actualizar viaje a terminado y liberar camioneta');
-    // throw new Error('Method not implemented.');
+    this.viajesService.terminarViaje({
+      fechaCarga: this.viajes.fechaCarga,
+      fechaServicio: this.viajes.fechaServicio,
+      cargasDetalles: [viaje]
+    });
   }
 }
