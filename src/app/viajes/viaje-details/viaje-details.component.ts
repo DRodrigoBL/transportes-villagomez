@@ -13,6 +13,7 @@ import { ConfirmationDialogComponent } from 'src/app/shared/dialog/confirmation.
 import { ViajesService } from '../../shared/services/viajes.service';
 import { ViewProductosDialogComponent } from '../../shared/dialog-view-products/view.products.dialog';
 import { DateUtilsService } from '../../shared/services/date.utils.service';
+import { Truck } from '../../business/model/truck.model';
 
 @Component({
   selector: 'app-viaje-details',
@@ -21,12 +22,10 @@ import { DateUtilsService } from '../../shared/services/date.utils.service';
 })
 export class ViajeDetailsComponent implements OnInit {
   @Input()
-  truckName: string;
+  camioneta: Truck;
 
   @Input()
   viajes: Carga;
-
-  viajesTerminados: boolean[] = [false];
 
   viajesDetallesToDisplay: CargasDetalles[] = [];
 
@@ -43,7 +42,7 @@ export class ViajeDetailsComponent implements OnInit {
 
   findViajeDetailsByTruckName() {
     for (const viaje of this.viajes.cargasDetalles) {
-      if (viaje.camioneta === this.truckName) {
+      if (viaje.camioneta === this.camioneta.name) {
         this.viajesDetallesToDisplay.push(viaje);
       }
     }
@@ -106,6 +105,16 @@ export class ViajeDetailsComponent implements OnInit {
       }
     });
   }
+
+  formatDate(): string {
+    return this.viajes.fechaServicio;
+  }
+
+  isCamionetaFree(): boolean {
+    const orderedViajesDetalles = this.orderedViajesDetallesToDisplay();
+    return !orderedViajesDetalles[orderedViajesDetalles.length - 1].isViajeTerminado;
+  }
+
   terminarViaje(viaje: CargasDetalles) {
     console.log('Actualizar viaje a terminado y liberar camioneta');
     this.viajesService.terminarViaje({

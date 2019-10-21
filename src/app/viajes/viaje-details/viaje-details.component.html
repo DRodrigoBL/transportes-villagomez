@@ -1,7 +1,15 @@
-
-<br>
-
+<button mat-icon-button aria-label="Agregar viaje" mat-button color="primary" [routerLink]="['/viajes/new']"
+    [disabled]="isCamionetaFree()"
+    [queryParams]="{fechaServicio: formatDate(), camioneta: camioneta.name, chofer: camioneta.driverName}">
+    Aregar viaje<mat-icon>add_circle</mat-icon>
+</button>
+<hr>
 <div *ngFor="let viaje of orderedViajesDetallesToDisplay(); let i index">
+    <button mat-icon-button aria-label="Editar viaje" mat-button color="primary" 
+        [routerLink]="['/viajes/edit']"
+        [queryParams]="{fechaServicio: formatDate(), camioneta: camioneta.name, chofer: camioneta.driverName}">
+        <mat-icon>edit</mat-icon>
+    </button>
     <mat-slide-toggle [checked]="viaje.isViajeTerminado" [disabled]="viaje.isViajeTerminado"
         (change)="isViajeTerminadoChange($event, viaje)">
         ¿Viaje terminado?
@@ -18,4 +26,5 @@
     <br>
     <div *ngIf="viaje.ayudante">Ayudante: {{ viaje.ayudante }}</div>
     <div *ngIf="!viaje.ayudante">Sin ayudante</div>
+    <hr>
 </div>
