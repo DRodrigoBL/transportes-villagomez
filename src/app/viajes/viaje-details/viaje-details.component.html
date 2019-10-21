@@ -1,3 +1,12 @@
+Agregar viaje
+<hr>
+Editar viaje
+<br>
+
+<mat-slide-toggle  [checked]="isViajeTerminado" (change)="isViajeTerminadoChange($event)">
+    ¿Viaje terminado?
+</mat-slide-toggle>
+<br>
 {{ origen }} => {{ destino }}
 <br>
 Chofer: {{ chofer }}
