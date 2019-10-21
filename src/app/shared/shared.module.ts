@@ -5,7 +5,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { ConfirmationDialogComponent } from './dialog/confirmation.dialog';
 
 import { MaterialModule } from '../material.module';
-import { DateUtilsService } from './date.utils.service';
+import { DateUtilsService } from './services/date.utils.service';
 import { ViajesService } from './services/viajes.service';
 
 @NgModule({

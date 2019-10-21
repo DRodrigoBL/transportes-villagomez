@@ -12,7 +12,7 @@ import {
 import { Origen, Destino, Producto } from '../../model/origen.model';
 import { LoadsService } from '../../services/loads.service';
 import { Carga, CargasDetalles, CargaProducto } from '../../model/carga.model';
-import { DateUtilsService } from '../../../shared/date.utils.service';
+import { DateUtilsService } from '../../../shared/services/date.utils.service';
 
 @Component({
   selector: 'app-new-load',

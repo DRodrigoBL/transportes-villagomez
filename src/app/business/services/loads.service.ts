@@ -10,7 +10,7 @@ import { Origen } from '../model/origen.model';
 import { Carga } from '../model/carga.model';
 import * as firebase from 'firebase/app';
 import { UpdateCarga } from '../loads/cargas.actions';
-import { DateUtilsService } from '../../shared/date.utils.service';
+import { DateUtilsService } from '../../shared/services/date.utils.service';
 
 @Injectable()
 export class LoadsService {

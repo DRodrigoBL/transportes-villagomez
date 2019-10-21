@@ -20,7 +20,7 @@ import { Moment } from 'moment';
 import * as moment from 'moment';
 
 
-import { DateUtilsService } from '../../shared/date.utils.service';
+import { DateUtilsService } from '../../shared/services/date.utils.service';
 import { ViajesService } from '../../shared/services/viajes.service';
 
 @Component({

@@ -12,7 +12,7 @@ import {
 import { LoadsService } from '../../services/loads.service';
 import { Origen, Destino, Producto } from '../../model/origen.model';
 import { Carga, CargasDetalles, CargaProducto } from '../../model/carga.model';
-import { DateUtilsService } from 'src/app/shared/date.utils.service';
+import { DateUtilsService } from 'src/app/shared/services/date.utils.service';
 
 @Component({
   selector: 'app-edit-load',
