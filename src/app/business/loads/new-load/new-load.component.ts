@@ -13,6 +13,7 @@ import { Origen, Destino, Producto } from '../../model/origen.model';
 import { LoadsService } from '../../services/loads.service';
 import { Carga, CargasDetalles, CargaProducto } from '../../model/carga.model';
 import { DateUtilsService } from '../../../shared/services/date.utils.service';
+import { ayudanteValidator } from '../../../shared/validators/ayudante.validator';
 
 @Component({
   selector: 'app-new-load',
@@ -86,7 +87,7 @@ export class NewLoadComponent implements OnInit {
       hasAyudante: false,
       ayudante: null,
       productosDetail: this.formBuilder.array([])
-    });
+    }, {validators: ayudanteValidator});
 
     this.origenSelect.valueChanges.subscribe(newOrigenValue => {
       if (newOrigenValue === '0') {
