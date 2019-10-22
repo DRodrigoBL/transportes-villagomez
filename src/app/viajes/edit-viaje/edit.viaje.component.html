@@ -88,7 +88,7 @@
             <div fxFlex="25%">
                 <mat-form-field class="subform-element">
                     <input type="text" matInput formControlName="cantidad"
-                    inputmode="numeric" pattern="[0-9]*" digitOnly>
+                    inputmode="numeric" pattern="[0-9]*" digitOnly required>
                 </mat-form-field>
             </div>
             <div fxFlex="25%">
@@ -106,6 +106,9 @@
 
     <div fxLayout="row" fxLayoutAlign="space-between space-around" class="form-element">
         <a mat-stroked-button color="warn" [routerLink]="['/viajes']">Regresar</a>
-        <button mat-button mat-raised-button color="primary">Guardar Viaje</button>
+        <button mat-button mat-raised-button color="primary"
+            [disabled]="cargasForm.invalid">
+            Guardar Viaje
+        </button>
     </div>
 </form>

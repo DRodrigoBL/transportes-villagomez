@@ -43,7 +43,7 @@
     <div *ngIf="hasAyudante.value && currentDestino">
         <mat-form-field class="form-element">
             <mat-label>Ayudante</mat-label>
-            <mat-select formControlName="ayudante" required>
+            <mat-select formControlName="ayudante">
                 <mat-option value="0">
                     Seleccione Ayudante
                 </mat-option>
@@ -90,7 +90,7 @@
             <div fxFlex="25%">
                 <mat-form-field class="subform-element">
                     <input type="text" matInput formControlName="cantidad"
-                    inputmode="numeric" pattern="[0-9]*" digitOnly>
+                    inputmode="numeric" pattern="[0-9]*" digitOnly required>
                 </mat-form-field>
             </div>
             <div fxFlex="25%">
