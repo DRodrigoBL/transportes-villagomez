@@ -24,12 +24,14 @@
         <div *ngIf="truckHasViaje(truck.name)">
             <app-viaje-details [viajes]=viajes [camioneta]=truck></app-viaje-details>
         </div>
-        <mat-action-row>
-                
-            <button mat-icon-button aria-label="Eliminar carga" *ngIf="truckHasViaje(truck.name)" mat-button
-                color="primary" (click)="openDialog(truck.name)">
-                <mat-icon>delete</mat-icon>
+        <div *ngIf="!truckHasViaje(truck.name)">
+            <button mat-icon-button aria-label="Agregar viaje" mat-button color="primary" 
+                [routerLink]="['/viajes/new']"
+                [queryParams]="{fechaServicio: formatDate(), 
+                                camioneta: truck.name, 
+                                chofer: truck.driverName}">
+                Aregar viaje<mat-icon>add_circle</mat-icon>
             </button>
-        </mat-action-row>
+        </div>
     </mat-expansion-panel>
 </mat-accordion>
