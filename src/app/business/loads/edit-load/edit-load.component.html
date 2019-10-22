@@ -89,7 +89,8 @@
             </div>
             <div fxFlex="25%">
                 <mat-form-field class="subform-element">
-                    <input type="text" matInput formControlName="cantidad">
+                    <input type="text" matInput formControlName="cantidad"
+                    inputmode="numeric" pattern="[0-9]*" digitOnly>
                 </mat-form-field>
             </div>
             <div fxFlex="25%">

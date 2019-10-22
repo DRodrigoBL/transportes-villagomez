@@ -43,7 +43,7 @@
     <div *ngIf="hasAyudante.value && currentDestino">
         <mat-form-field class="form-element">
             <mat-label>Ayudante</mat-label>
-            <mat-select formControlName="ayudante">
+            <mat-select formControlName="ayudante" required>
                 <mat-option value="0">
                     Seleccione Ayudante
                 </mat-option>
@@ -89,7 +89,8 @@
             </div>
             <div fxFlex="25%">
                 <mat-form-field class="subform-element">
-                    <input type="text" matInput formControlName="cantidad">
+                    <input type="text" matInput formControlName="cantidad"
+                    inputmode="numeric" pattern="[0-9]*" digitOnly>
                 </mat-form-field>
             </div>
             <div fxFlex="25%">
@@ -112,6 +113,7 @@
 
     <div fxLayout="row" fxLayoutAlign="space-between space-around" class="form-element">
         <a mat-stroked-button color="warn" [routerLink]="['/cargas']">Regresar</a>
-        <button mat-button mat-raised-button color="primary">Guardar Carga</button>
+        <button mat-button mat-raised-button color="primary"
+        [disabled]="cargasForm.invalid">Guardar Carga</button>
     </div>
 </form>
