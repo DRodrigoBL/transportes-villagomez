@@ -13,7 +13,7 @@ export class DateUtilsService {
     const momentDate = moment(date, this.DATE_FORMAT);
     const dayOfWeek = momentDate.day();
     if (dayOfWeek === this.SATURDAY_INDEX) {
-      return momentDate.day(1).format(this.DATE_FORMAT);
+      return momentDate.add(1, 'weeks').day(1).format(this.DATE_FORMAT);
     }
     return momentDate.day(dayOfWeek + 1).format(this.DATE_FORMAT);
   }
